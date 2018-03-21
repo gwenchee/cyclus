@@ -2,7 +2,7 @@
 #if !defined(_EVENT_H)
 #define _EVENT_H
 
-#include "intrusive_base.h"
+#include "IntrusiveBase.h"
 #include "EventManager.h"
 
 #include <list>
