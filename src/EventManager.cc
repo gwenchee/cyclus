@@ -3,6 +3,7 @@
 #include "EventManager.h"
 #include "EventBackend.h"
 #include "Event.h"
+#include "logger.h"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
