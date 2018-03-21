@@ -5,7 +5,7 @@
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/assert.hpp>
-#include "Logger.h"
+#include "logger.h"
 
 /**
    IntrusiveBase provides a base class that fulfulls basic requirements
