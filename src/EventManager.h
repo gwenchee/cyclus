@@ -3,6 +3,7 @@
 #define _EVENTMANAGER_H
 
 #include "CycException.h"
+#include "logger.h"
 
 #include <list>
 #include <vector>
