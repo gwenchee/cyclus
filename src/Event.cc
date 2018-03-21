@@ -1,7 +1,7 @@
 // Event.cpp
 
 #include "Event.h"
-#include "Timer.h"
+#include "timer.h"
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 event_ptr Event::addVal(std::string field, boost::any val) {
