@@ -4,6 +4,7 @@
 #include "material.h"
 #include "resource.h"
 #include "product.h"
+#include "packagedmaterial.h"
 
 namespace cyclus {
 namespace toolkit {
@@ -16,12 +17,20 @@ Product::Ptr Squash(std::vector<Product::Ptr> ps);
 /// material.
 Material::Ptr Squash(std::vector<Material::Ptr> ms);
 
+/// Squash combines all packagedmaterials in ms and returns the resulting single
+/// packagedmaterial.
+PackagedMaterial::Ptr Squash(std::vector<PackagedMaterial::Ptr> pms);
+
 /// Squash combines all resources in rs and returns the resulting single
 /// resource.
 Resource::Ptr Squash(std::vector<Resource::Ptr> rs);
 
 /// Casts a vector of Materials into a vector of Resources.
 std::vector<Resource::Ptr> ResCast(std::vector<Material::Ptr> rs);
+
+/// Casts a vector of PackagedMaterials into a vector of Resources.
+std::vector<Resource::Ptr> ResCast(std::vector<PackagedMaterial::Ptr> rs);
+
 
 /// Casts a vector of Products into a vector of Resources.
 std::vector<Resource::Ptr> ResCast(std::vector<Product::Ptr> rs);

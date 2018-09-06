@@ -28,6 +28,18 @@ Material::Ptr Squash(std::vector<Material::Ptr> ms) {
   return m;
 }
 
+PackagedMaterial::Ptr Squash(std::vector<PackagedMaterial::Ptr> ms) {
+  if (ms.size() == 0) {
+    throw Error("cannot squash zero resources together");
+  }
+
+  PackagedMaterial::Ptr m = ms[0];
+  for (int i = 1; i < ms.size(); ++i) {
+    m->Absorb(ms[i]);
+  }
+  return m;
+}
+
 Resource::Ptr Squash(std::vector<Resource::Ptr> rs) {
   if (rs.size() == 0) {
     throw Error("cannot squash zero resources together");
@@ -46,6 +58,14 @@ Resource::Ptr Squash(std::vector<Resource::Ptr> rs) {
 }
   
 std::vector<Resource::Ptr> ResCast(std::vector<Material::Ptr> rs) {
+  std::vector<Resource::Ptr> casted;
+  for (int i = 0; i < rs.size(); ++i) {
+    casted.push_back(boost::dynamic_pointer_cast<Resource>(rs[i]));
+  }
+  return casted;
+}
+
+std::vector<Resource::Ptr> ResCast(std::vector<PackagedMaterial::Ptr> rs) {
   std::vector<Resource::Ptr> casted;
   for (int i = 0; i < rs.size(); ++i) {
     casted.push_back(boost::dynamic_pointer_cast<Resource>(rs[i]));

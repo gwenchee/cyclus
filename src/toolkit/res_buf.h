@@ -14,6 +14,7 @@
 #include "material.h"
 #include "resource.h"
 #include "res_manip.h"
+#include "packagedmaterial.h"
 
 namespace cyclus {
 namespace toolkit {
@@ -21,6 +22,7 @@ namespace toolkit {
 typedef std::vector<Resource::Ptr> ResVec;
 typedef std::vector<Material::Ptr> MatVec;
 typedef std::vector<Product::Ptr> ProdVec;
+typedef std::vector<PackagedMaterial::Ptr> PacMatVec;
 
 /// ResBuf is a helper class that provides semi-automated management of
 /// a collection of resources (e.g. agent stocks and inventories).
