@@ -5,11 +5,13 @@
 #include "timer.h"
 #include "material.h"
 #include "product.h"
+#include "packagedmaterial.h"
 #include "composition.h"
 #include "region.h"
 
 using cyclus::Material;
 using cyclus::Product;
+using cyclus::PackagedMaterial;
 
 class Dummy : public cyclus::Region {
  public:
@@ -30,6 +32,8 @@ class ResourceTest : public ::testing::Test {
     m2 = Material::Create(dummy, 7, c);
     p1 = Product::Create(dummy, 3, "bananas");
     p2 = Product::Create(dummy, 7, "bananas");
+    pm1 = PackagedMaterial::Create(dummy, 3, "bananas");
+    pm2 = PackagedMaterial::Create(dummy, 7, "bananas");
   }
 
   virtual void TearDown() {
@@ -43,6 +47,8 @@ class ResourceTest : public ::testing::Test {
   Material::Ptr m2;
   Product::Ptr p1;
   Product::Ptr p2;
+  PackagedMaterial::Ptr pm1;
+  PackagedMaterial::Ptr pm2;
 };
 
 TEST_F(ResourceTest, MaterialAbsorbTrackid) {
@@ -94,6 +100,33 @@ TEST_F(ResourceTest, ProductExtractTrackid) {
 TEST_F(ResourceTest, ProductExtractGraphid) {
   int state_id = p1->state_id();
   Product::Ptr p3 = p1->Extract(2);
+  EXPECT_LT(state_id, p1->state_id());
+  EXPECT_LT(state_id, p3->state_id());
+  EXPECT_NE(p1->state_id(), p3->state_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialAbsorbTrackid) {
+  int obj_id = p1->obj_id();
+  p1->Absorb(p2);
+  EXPECT_EQ(obj_id, p1->obj_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialAbsorbGraphid) {
+  int state_id = p1->state_id();
+  p1->Absorb(p2);
+  EXPECT_LT(state_id, p1->state_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialExtractTrackid) {
+  int obj_id = p1->obj_id();
+  PackagedMaterial::Ptr p3 = p1->Extract(2);
+  EXPECT_EQ(obj_id, p1->obj_id());
+  EXPECT_LT(obj_id, p3->obj_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialExtractGraphid) {
+  int state_id = p1->state_id();
+  PackagedMaterial::Ptr p3 = p1->Extract(2);
   EXPECT_LT(state_id, p1->state_id());
   EXPECT_LT(state_id, p3->state_id());
   EXPECT_NE(p1->state_id(), p3->state_id());
