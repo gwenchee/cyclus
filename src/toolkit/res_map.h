@@ -12,6 +12,7 @@
 #include "error.h"
 #include "product.h"
 #include "material.h"
+#include "packagedmaterial.h"
 #include "resource.h"
 #include "res_manip.h"
 
