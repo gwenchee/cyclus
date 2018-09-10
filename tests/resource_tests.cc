@@ -7,9 +7,11 @@
 #include "product.h"
 #include "composition.h"
 #include "region.h"
+#include "packagedmaterial.h"
 
 using cyclus::Material;
 using cyclus::Product;
+using cyclus::PackagedMaterial;
 
 class Dummy : public cyclus::Region {
  public:
@@ -28,6 +30,8 @@ class ResourceTest : public ::testing::Test {
 
     m1 = Material::Create(dummy, 3, c);
     m2 = Material::Create(dummy, 7, c);
+    pm1 = PackagedMaterial::Create(dummy, 3, c);
+    pm2 = PackagedMaterial::Create(dummy, 7, c);
     p1 = Product::Create(dummy, 3, "bananas");
     p2 = Product::Create(dummy, 7, "bananas");
   }
@@ -41,6 +45,8 @@ class ResourceTest : public ::testing::Test {
   cyclus::Context* ctx;
   Material::Ptr m1;
   Material::Ptr m2;
+  PackagedMaterial::Ptr pm1;
+  PackagedMaterial::Ptr pm2;
   Product::Ptr p1;
   Product::Ptr p2;
 };
@@ -70,6 +76,33 @@ TEST_F(ResourceTest, MaterialExtractGraphid) {
   EXPECT_LT(state_id, m1->state_id());
   EXPECT_LT(state_id, m3->state_id());
   EXPECT_NE(m1->state_id(), m3->state_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialAbsorbTrackid) {
+  int obj_id = pm1->obj_id();
+  pm1->Absorb(pm2);
+  EXPECT_EQ(obj_id, pm1->obj_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialAbsorbGraphid) {
+  int state_id = pm1->state_id();
+  pm1->Absorb(pm2);
+  EXPECT_LT(state_id, pm1->state_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialExtractTrackid) {
+  int obj_id = pm1->obj_id();
+  PackagedMaterial::Ptr pm3 = pm1->ExtractQty(2);
+  EXPECT_EQ(obj_id, pm1->obj_id());
+  EXPECT_LT(obj_id, pm3->obj_id());
+}
+
+TEST_F(ResourceTest, PackagedMaterialExtractGraphid) {
+  int state_id = pm1->state_id();
+  PackagedMaterial::Ptr pm3 = pm1->ExtractQty(2);
+  EXPECT_LT(state_id, pm1->state_id());
+  EXPECT_LT(state_id, pm3->state_id());
+  EXPECT_NE(pm1->state_id(), pm3->state_id());
 }
 
 TEST_F(ResourceTest, ProductAbsorbTrackid) {

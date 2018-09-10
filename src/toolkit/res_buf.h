@@ -12,6 +12,7 @@
 #include "error.h"
 #include "product.h"
 #include "material.h"
+#include "packagedmaterial.h"
 #include "resource.h"
 #include "res_manip.h"
 
@@ -20,6 +21,7 @@ namespace toolkit {
 
 typedef std::vector<Resource::Ptr> ResVec;
 typedef std::vector<Material::Ptr> MatVec;
+typedef std::vector<PackagedMaterial::Ptr> PacMatVec;
 typedef std::vector<Product::Ptr> ProdVec;
 
 /// ResBuf is a helper class that provides semi-automated management of
