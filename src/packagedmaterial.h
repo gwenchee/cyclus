@@ -13,54 +13,7 @@ namespace cyclus {
 
 class Context;
 
-/// The packagedmaterial class is primarily responsible for enabling basic packagedmaterial
-/// manipulation while helping enforce mass conservation.  It also provides the
-/// ability to easily decay a packagedmaterial up to the current simulation time; it
-/// does not perform any decay related logic itself.
-///
-/// There are four basic operations that can be performed on packagedmaterials: create,
-/// transmute (change packagedmaterial composition - e.g. fission by reactor), absorb
-/// (combine packagedmaterials), extract (split a packagedmaterial). All packagedmaterial
-/// handling/manipulation will be performed using these operations - and all
-/// operations performed will be tracked and recorded. Usage examples:
-///
-/// * A mining facility that "creates" new packagedmaterial
-///
-///   @code
-///   Composition::Ptr nat_u = ...
-///   double qty = 10.0;
-///
-///   PackagedMaterial::Ptr m = PackagedMaterial::Create(qty, nat_u, ctx);
-///   @endcode
-///
-/// * A conversion facility mixing uranium and flourine:
-///
-///   @code
-///   PackagedMaterial::Ptr uf6 = uranium_buf.Pop();
-///   PackagedMaterial::Ptr f = flourine_buf.Pop();
-///
-///   uf6.Absorb(f);
-///   @endcode
-///
-/// * A reactor transmuting fuel:
-///
-///   @code
-///   Composition::Ptr burned_comp = ... // fancy code to calculate burned nuclides
-///   PackagedMaterial::Ptr assembly = core_fuel.Pop();
-///
-///   assembly.Transmute(burned_comp);
-///   @endcode
-///
-/// * A separations plant extracting stuff from spent fuel:
-///
-///   @code
-///   Composition::Ptr comp = ... // fancy code to calculate extracted nuclides
-///   Material::Ptr bucket = spent_fuel.Pop();
-///   double qty = 3.0;
-///
-///   PackagedMaterial::Ptr mox = bucket.ExtractComp(qty, comp);
-///   @endcode
-///
+
 class PackagedMaterial: public Resource {
   friend class SimInit;
 
