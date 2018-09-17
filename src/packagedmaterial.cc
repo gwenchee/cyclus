@@ -7,6 +7,7 @@
 #include "decayer.h"
 #include "error.h"
 #include "logger.h"
+#include "material.h"
 
 namespace cyclus {
 
@@ -15,7 +16,8 @@ const ResourceType PackagedMaterial::kType = "PackagedMaterial";
 PackagedMaterial::~PackagedMaterial() {}
 
 PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, MaterialMap matmap,
-                               Package::Ptr p) {
+                              Package::Ptr p) {
+  std::cout << "eh" << std::endl;
   PackagedMaterial::Ptr pm(new PackagedMaterial(creator->context(), matmap, p));
   pm->tracker_.Create(creator);
   return pm;

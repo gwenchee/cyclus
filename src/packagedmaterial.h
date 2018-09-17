@@ -17,8 +17,8 @@ class Context;
 
 class PackagedMaterial: public Resource {
   friend class SimInit;
-
- public:
+ 
+  public:
   typedef boost::shared_ptr<PackagedMaterial> Ptr;
   typedef std::vector<Material::Ptr> MaterialMap;
   static const ResourceType kType;
