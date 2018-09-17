@@ -14,7 +14,7 @@ const ResourceType PackagedMaterial::kType = "PackagedMaterial";
 
 PackagedMaterial::~PackagedMaterial() {}
 
-PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, double quantity,
+PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, matstream quantity,
                                Composition::Ptr c) {
   PackagedMaterial::Ptr m(new PackagedMaterial(creator->context(), quantity, c));
   m->tracker_.Create(creator);
