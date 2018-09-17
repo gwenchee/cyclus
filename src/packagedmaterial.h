@@ -8,6 +8,7 @@
 #include "cyc_limits.h"
 #include "resource.h"
 #include "res_tracker.h"
+#include "material.h"
 
 namespace cyclus {
 
@@ -66,6 +67,7 @@ class PackagedMaterial: public Resource {
 
  public:
   typedef boost::shared_ptr<PackagedMaterial> Ptr;
+  typedef std::vector<Material::Ptr> matstream;
   static const ResourceType kType;
 
   virtual ~PackagedMaterial();
