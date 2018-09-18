@@ -70,7 +70,7 @@ class PackagedMaterial: public Resource {
   typedef std::vector<Material::Ptr> matstream;
   static const ResourceType kType;
 
-  virtual ~PackagedMaterial();
+  virtual  ~PackagedMaterial();
 
   /// Creates a new packagedmaterial resource that is "live" and tracked. creator is a
   /// pointer to the agent creating the resource (usually will be the caller's
