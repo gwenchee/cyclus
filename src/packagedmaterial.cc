@@ -20,28 +20,32 @@ PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, matstream quantit
   m->tracker_.Create(creator);
   return m;
 }
-
-PackagedMaterial::Ptr PackagedMaterial::CreateUntracked(double quantity,
+/*
+PackagedMaterial::Ptr PackagedMaterial::CreateUntracked(matstream quantity,
                                         Composition::Ptr c) {
   PackagedMaterial::Ptr m(new PackagedMaterial(NULL, quantity, c));
   return m;
 }
-
+*/
+/*
 int PackagedMaterial::qual_id() const {
   return comp_->id();
 }
-
+*/
+/*
 const ResourceType PackagedMaterial::type() const {
   return PackagedMaterial::kType;
 }
-
+*/
+/*
 Resource::Ptr PackagedMaterial::Clone() const {
   PackagedMaterial* m = new PackagedMaterial(*this);
   Resource::Ptr c(m);
   m->tracker_.DontTrack();
   return c;
 }
-
+*/
+/*
 void PackagedMaterial::Record(Context* ctx) const {
   // Note that no time field is needed because the resource ID changes
   // every time the resource changes - state_id by itself is already unique.
@@ -52,28 +56,34 @@ void PackagedMaterial::Record(Context* ctx) const {
 
   comp_->Record(ctx);
 }
-
+*/
+/*
 std::string PackagedMaterial::units() const {
   return "kg";
 }
-
+*/
+/*
 double PackagedMaterial::quantity() const {
   return qty_;
 }
-
-Resource::Ptr PackagedMaterial::ExtractRes(double qty) {
+*/
+/*
+Resource::Ptr PackagedMaterial::ExtractRes(matstream qty) {
   return boost::static_pointer_cast<Resource>(ExtractQty(qty));
 }
-
-PackagedMaterial::Ptr PackagedMaterial::ExtractQty(double qty) {
+*/
+/*
+PackagedMaterial::Ptr PackagedMaterial::ExtractQty(matstream qty) {
   return ExtractComp(qty, comp_);
 }
-
-PackagedMaterial::Ptr PackagedMaterial::ExtractComp(double qty, Composition::Ptr c,
+*/
+/*
+PackagedMaterial::Ptr PackagedMaterial::ExtractComp(matstream qty, Composition::Ptr c,
                                     double threshold) {
   if (qty_ < qty) {
     throw ValueError("mass extraction causes negative quantity");
   }
+
 
   // TODO: decide if ExtractComp should force lazy-decay by calling comp()
   if (comp_ != c) {
@@ -98,7 +108,8 @@ PackagedMaterial::Ptr PackagedMaterial::ExtractComp(double qty, Composition::Ptr
 
   return other;
 }
-
+*/
+/*
 void PackagedMaterial::Absorb(PackagedMaterial::Ptr mat) {
   // these calls force lazy evaluation if in lazy decay mode
   Composition::Ptr c0 = comp();
@@ -124,7 +135,8 @@ void PackagedMaterial::Absorb(PackagedMaterial::Ptr mat) {
   mat->qty_ = 0;
   tracker_.Absorb(&mat->tracker_);
 }
-
+*/
+/*
 void PackagedMaterial::Transmute(Composition::Ptr c) {
   comp_ = c;
   tracker_.Modify();
@@ -140,7 +152,8 @@ void PackagedMaterial::Transmute(Composition::Ptr c) {
     prev_decay_time_ = ctx_->time();
   }
 }
-
+*/
+/*
 void PackagedMaterial::Decay(int curr_time) {
   if (ctx_ != NULL && ctx_->sim_info().decay == "never") {
     return;
@@ -192,7 +205,8 @@ void PackagedMaterial::Decay(int curr_time) {
   Composition::Ptr decayed = comp_->Decay(dt, secs_per_timestep);
   Transmute(decayed);
 }
-
+*/
+/*
 double PackagedMaterial::DecayHeat() {
   double decay_heat = 0.;
   // Pyne decay heat operates with grams, cyclus generally in kilograms.
@@ -205,7 +219,8 @@ double PackagedMaterial::DecayHeat() {
   }
   return decay_heat;
 }
-
+*/
+/*
 Composition::Ptr PackagedMaterial::comp() const {
   throw Error("comp() const is deprecated - use non-const comp() function."
               " Recompilation should fix the problem.");
@@ -217,8 +232,8 @@ Composition::Ptr PackagedMaterial::comp() {
   }
   return comp_;
 }
-
-PackagedMaterial::PackagedMaterial(Context* ctx, double quantity, Composition::Ptr c)
+*/
+PackagedMaterial::PackagedMaterial(Context* ctx, matstream quantity, Composition::Ptr c)
     : qty_(quantity),
       comp_(c),
       tracker_(ctx, this),
@@ -230,10 +245,10 @@ PackagedMaterial::PackagedMaterial(Context* ctx, double quantity, Composition::P
     tracker_.DontTrack();
   }
 }
-
-PackagedMaterial::Ptr NewBlankPackagedMaterial(double quantity) {
+/*
+PackagedMaterial::Ptr NewBlankPackagedMaterial(matstream quantity) {
   Composition::Ptr comp = Composition::CreateFromMass(CompMap());
   return PackagedMaterial::CreateUntracked(quantity, comp);
 }
-
+*/
 }  // namespace cyclus
