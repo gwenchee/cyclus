@@ -27,25 +27,25 @@ PackagedMaterial::Ptr PackagedMaterial::CreateUntracked(matstream quantity,
   return m;
 }
 */
-/*
+
 int PackagedMaterial::qual_id() const {
   return comp_->id();
 }
-*/
-/*
+
+
 const ResourceType PackagedMaterial::type() const {
   return PackagedMaterial::kType;
 }
-*/
-/*
+
+
 Resource::Ptr PackagedMaterial::Clone() const {
   PackagedMaterial* m = new PackagedMaterial(*this);
   Resource::Ptr c(m);
   m->tracker_.DontTrack();
   return c;
 }
-*/
-/*
+
+
 void PackagedMaterial::Record(Context* ctx) const {
   // Note that no time field is needed because the resource ID changes
   // every time the resource changes - state_id by itself is already unique.
@@ -56,22 +56,22 @@ void PackagedMaterial::Record(Context* ctx) const {
 
   comp_->Record(ctx);
 }
-*/
-/*
+
+
 std::string PackagedMaterial::units() const {
   return "kg";
 }
-*/
-/*
+
+
 double PackagedMaterial::quantity() const {
   return qty_;
 }
-*/
-/*
+
+
 Resource::Ptr PackagedMaterial::ExtractRes(matstream qty) {
   return boost::static_pointer_cast<Resource>(ExtractQty(qty));
 }
-*/
+
 /*
 PackagedMaterial::Ptr PackagedMaterial::ExtractQty(matstream qty) {
   return ExtractComp(qty, comp_);

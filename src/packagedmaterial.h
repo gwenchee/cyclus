@@ -83,24 +83,24 @@ class PackagedMaterial: public Resource {
   /// static Ptr CreateUntracked(matstream quantity, Composition::Ptr c);
 
   /// Returns the id of the packagedmaterial's internal nuclide composition.
-  /// virtual int qual_id() const;
+  virtual int qual_id() const;
 
   /// Returns PackagedMaterial::kType.
-  ///virtual const ResourceType type() const;
+  virtual const ResourceType type() const;
 
   /// Creates an untracked copy of this packagedmaterial object.
-  ///virtual Resource::Ptr Clone() const;
+  virtual Resource::Ptr Clone() const;
 
   /// Records the internal nuclide composition of this resource.
-  ///virtual void Record(Context* ctx) const;
+  virtual void Record(Context* ctx) const;
 
   /// Returns "kg"
-  ///virtual std::string units() const;
+  virtual std::string units() const;
 
   /// Returns the mass of this packagedmaterial in kg.
-  ///virtual double quantity() const;
+  virtual double quantity() const;
 
-  ///virtual Resource::Ptr ExtractRes(matstream qty);
+  virtual Resource::Ptr ExtractRes(matstream qty);
 
   /// Same as ExtractComp with c = this->comp().
   ///Ptr ExtractQty(matstream qty);
