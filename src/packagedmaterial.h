@@ -6,6 +6,7 @@
 #include "context.h"
 #include "resource.h"
 #include "res_tracker.h"
+#include "material.h"
 
 class SimInitTest;
 
@@ -20,19 +21,19 @@ class PackagedMaterial : public Resource {
   friend class ::SimInitTest;
 
  public:
-  typedef
-  boost::shared_ptr<PackagedMaterial> Ptr;
+  typedef boost::shared_ptr<PackagedMaterial> Ptr;
+  typedef std::vector<Material::Ptr> matstream;
   static const ResourceType kType;
 
   /// Creates a new product that is "live" and tracked. creator is a
   /// pointer to the agent creating the resource (usually will be the caller's
   /// "this" pointer). All future output data recorded will be done using the
   /// creator's context.
-  static Ptr Create(Agent* creator, double quantity, std::string quality);
+  static Ptr Create(Agent* creator, double quantity, matstream quality);
 
   /// Creates a new product that does not actually exist as part of
   /// the simulation and is untracked.
-  static Ptr CreateUntracked(double quantity, std::string quality);
+  static Ptr CreateUntracked(double quantity, matstream quality);
 
   /// Returns 0 (for now).
   virtual int qual_id() const {
@@ -55,7 +56,7 @@ class PackagedMaterial : public Resource {
   }
 
   /// Returns the quality of this resource (e.g. bananas, human labor, water, etc.).
-  virtual const std::string& quality() const {
+  virtual const matstream& quality() const {
     return quality_;
   }
 
@@ -75,14 +76,14 @@ class PackagedMaterial : public Resource {
   /// @param ctx the simulation context
   /// @param quantity is a double indicating the quantity
   /// @param quality the resource quality
-  PackagedMaterial(Context* ctx, double quantity, std::string quality);
+  PackagedMaterial(Context* ctx, double quantity, matstream quality);
 
   // map<quality, quality_id>
-  static std::map<std::string, int> qualids_;
+  static std::map<matstream, int> qualids_;
   static int next_qualid_;
 
   Context* ctx_;
-  std::string quality_;
+  matstream quality_;
   double quantity_;
   ResTracker tracker_;
 };
