@@ -1,166 +1,92 @@
 #ifndef CYCLUS_SRC_PACKAGED_MATERIAL_H_
 #define CYCLUS_SRC_PACKAGED_MATERIAL_H_
 
-#include <list>
 #include <boost/shared_ptr.hpp>
 
-#include "composition.h"
-#include "cyc_limits.h"
+#include "context.h"
 #include "resource.h"
 #include "res_tracker.h"
+#include "material.h"
+
+class SimInitTest;
 
 namespace cyclus {
 
-class Context;
-
-/// The packagedmaterial class is primarily responsible for enabling basic packagedmaterial
-/// manipulation while helping enforce mass conservation.  It also provides the
-/// ability to easily decay a packagedmaterial up to the current simulation time; it
-/// does not perform any decay related logic itself.
-///
-/// There are four basic operations that can be performed on packagedmaterials: create,
-/// transmute (change packagedmaterial composition - e.g. fission by reactor), absorb
-/// (combine packagedmaterials), extract (split a packagedmaterial). All packagedmaterial
-/// handling/manipulation will be performed using these operations - and all
-/// operations performed will be tracked and recorded. Usage examples:
-///
-/// * A mining facility that "creates" new packagedmaterial
-///
-///   @code
-///   Composition::Ptr nat_u = ...
-///   double qty = 10.0;
-///
-///   PackagedMaterial::Ptr m = PackagedMaterial::Create(qty, nat_u, ctx);
-///   @endcode
-///
-/// * A conversion facility mixing uranium and flourine:
-///
-///   @code
-///   PackagedMaterial::Ptr uf6 = uranium_buf.Pop();
-///   PackagedMaterial::Ptr f = flourine_buf.Pop();
-///
-///   uf6.Absorb(f);
-///   @endcode
-///
-/// * A reactor transmuting fuel:
-///
-///   @code
-///   Composition::Ptr burned_comp = ... // fancy code to calculate burned nuclides
-///   PackagedMaterial::Ptr assembly = core_fuel.Pop();
-///
-///   assembly.Transmute(burned_comp);
-///   @endcode
-///
-/// * A separations plant extracting stuff from spent fuel:
-///
-///   @code
-///   Composition::Ptr comp = ... // fancy code to calculate extracted nuclides
-///   Material::Ptr bucket = spent_fuel.Pop();
-///   double qty = 3.0;
-///
-///   PackagedMaterial::Ptr mox = bucket.ExtractComp(qty, comp);
-///   @endcode
-///
-class PackagedMaterial: public Resource {
+/// A PackagedMaterial is a general type of resource in the Cyclus simulation,
+/// and is a catch-all for non-standard resources.  It implements the Resource
+/// class interface in a simple way usable for things such as: bananas,
+/// man-hours, water, buying power, etc.
+class PackagedMaterial : public Resource {
   friend class SimInit;
+  friend class ::SimInitTest;
 
  public:
   typedef boost::shared_ptr<PackagedMaterial> Ptr;
+  typedef std::vector<Material::Ptr> matstream;
   static const ResourceType kType;
 
-  virtual ~PackagedMaterial();
-
-  /// Creates a new packagedmaterial resource that is "live" and tracked. creator is a
+  /// Creates a new product that is "live" and tracked. creator is a
   /// pointer to the agent creating the resource (usually will be the caller's
   /// "this" pointer). All future output data recorded will be done using the
   /// creator's context.
-  static Ptr Create(Agent* creator, double quantity, Composition::Ptr c);
+  static Ptr Create(Agent* creator, double quantity, matstream quality);
 
-  /// Creates a new packagedmaterial resource that does not actually exist as part of
+  /// Creates a new product that does not actually exist as part of
   /// the simulation and is untracked.
-  static Ptr CreateUntracked(double quantity, Composition::Ptr c);
+  static Ptr CreateUntracked(double quantity, matstream quality);
 
-  /// Returns the id of the packagedmaterial's internal nuclide composition.
-  virtual int qual_id() const;
+  /// Returns 0 (for now).
+  virtual int qual_id() const {
+    return qualids_[quality_];
+  }
 
   /// Returns PackagedMaterial::kType.
-  virtual const ResourceType type() const;
+  virtual const ResourceType type() const {
+    return kType;
+  }
 
-  /// Creates an untracked copy of this packagedmaterial object.
   virtual Resource::Ptr Clone() const;
 
-  /// Records the internal nuclide composition of this resource.
-  virtual void Record(Context* ctx) const;
+  virtual void Record(Context* ctx) const {}
 
-  /// Returns "kg"
-  virtual std::string units() const;
+  virtual std::string units() const { return "NONE"; }
 
-  /// Returns the mass of this packagedmaterial in kg.
-  virtual double quantity() const;
+  virtual double quantity() const {
+    return quantity_;
+  }
 
-  virtual Resource::Ptr ExtractRes(double qty);
+  /// Returns the quality of this resource (e.g. bananas, human labor, water, etc.).
+  virtual const matstream& quality() const {
+    return quality_;
+  }
 
-  /// Same as ExtractComp with c = this->comp().
-  Ptr ExtractQty(double qty);
+  virtual Resource::Ptr ExtractRes(double quantity);
 
-  /// Creates a new packagedmaterial by extracting from this one.
+  /// Extracts the specified mass from this resource and returns it as a
+  /// new product object with the same quality/type.
   ///
-  /// @param qty the mass quantity to extract
-  /// @param c the composition the extracted/returned packagedmaterial
-  /// @param threshold an absolute mass cutoff below which constituent nuclide
-  /// quantities of the remaining unextracted packagedmaterial are set to zero.
-  /// @return a new packagedmaterial with quantity qty and composition c
-  Ptr ExtractComp(double qty, Composition::Ptr c,
-                  double threshold = eps_rsrc());
+  /// @throws ValueError tried to extract more than exists.
+  PackagedMaterial::Ptr Extract(double quantity);
 
-  /// Combines packagedmaterial mat with this one.  mat's quantity becomes zero.
-  void Absorb(Ptr mat);
-
-  /// Changes the packagedmaterial's composition to c without changing its mass.  Use
-  /// this method for things like converting fresh to spent fuel via burning in
-  /// a reactor.
-  void Transmute(Composition::Ptr c);
-
-  /// Updates the packagedmaterial's composition by performing a decay calculation.
-  /// This is a special case of Transmute where the new composition is
-  /// calculated automatically.  The time delta is calculated as the difference
-  /// between curr_time and the last time the packagedmaterial's composition was
-  /// updated with a decay calculation (i.e. prev_decay_time).  This may or may
-  /// not result in an updated packagedmaterial composition.  Does nothing if the
-  /// simulation decay mode is set to "never" or none of the nuclides' decay
-  /// constants are significant with respect to the time delta.
-  void Decay(int curr_time);
-
-  /// Returns the last time step on which a decay calculation was performed
-  /// for the packagedmaterial.  This is not necessarily synonymous with the last time
-  /// step the packagedmaterial's Decay function was called.
-  int prev_decay_time() { return prev_decay_time_; }
-
-  /// Returns a double with the decay heat of the packagedmaterial in units of
-  /// W/kg.
-  double DecayHeat();
-
-  /// Returns the nuclide composition of this packagedmaterial.
-  Composition::Ptr comp();
-
-  /// DEPRECATED - use non-const comp() function.
-  Composition::Ptr comp() const;
-
- protected:
-  PackagedMaterial(Context* ctx, double quantity, Composition::Ptr c);
+  /// Absorbs the contents of the given 'other' resource into this resource.
+  /// @throws ValueError 'other' resource is of different quality
+  void Absorb(PackagedMaterial::Ptr other);
 
  private:
+  /// @param ctx the simulation context
+  /// @param quantity is a double indicating the quantity
+  /// @param quality the resource quality
+  PackagedMaterial(Context* ctx, double quantity, matstream quality);
+
+  // map<quality, quality_id>
+  static std::map<matstream, int> qualids_;
+  static int next_qualid_;
+
   Context* ctx_;
-  double qty_;
-  Composition::Ptr comp_;
-  int prev_decay_time_;
+  matstream quality_;
+  double quantity_;
   ResTracker tracker_;
 };
-
-/// Creates and returns a new packagedmaterial with the specified quantity and a
-/// default, meaningless composition.  This is intended only for testing
-/// purposes.
-PackagedMaterial::Ptr NewBlankPackagedMaterial(double qty);
 
 }  // namespace cyclus
 
