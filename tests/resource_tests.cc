@@ -38,10 +38,8 @@ class ResourceTest : public ::testing::Test {
     ms.push_back(m1);
     ms.push_back(m2);
 
-    
-
-    pm1 = PackagedMaterial::Create(dummy, 3, ms);
-    pm2 = PackagedMaterial::Create(dummy, 7, ms);
+    pm1 = PackagedMaterial::Create(dummy, 3, pk);
+    pm2 = PackagedMaterial::Create(dummy, 7, pk);
   }
 
   virtual void TearDown() {
