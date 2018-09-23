@@ -7,12 +7,12 @@ namespace cyclus {
 
 const ResourceType PackagedMaterial::kType = "PackagedMaterial";
 
-std::map<PackagedMaterial::matstream, int> PackagedMaterial::qualids_;
+std::map<PackagedMaterial::package, int> PackagedMaterial::qualids_;
 int PackagedMaterial::next_qualid_ = 1;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, double quantity,
-                             PackagedMaterial::matstream quality) {
+                             PackagedMaterial::package quality) {
   if (qualids_.count(quality) == 0) {
     qualids_[quality] = next_qualid_++;
     creator->context()->NewDatum("PackagedMaterials")
@@ -30,7 +30,7 @@ PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, double quantity,
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 PackagedMaterial::Ptr PackagedMaterial::CreateUntracked(double quantity,
-                                      PackagedMaterial::matstream quality) {
+                                      PackagedMaterial::package quality) {
   PackagedMaterial::Ptr r(new PackagedMaterial(NULL, quantity, quality));
   r->tracker_.DontTrack();
   return r;
@@ -75,7 +75,7 @@ Resource::Ptr PackagedMaterial::ExtractRes(double qty) {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-PackagedMaterial::PackagedMaterial(Context* ctx, double quantity, PackagedMaterial::matstream quality)
+PackagedMaterial::PackagedMaterial(Context* ctx, double quantity, PackagedMaterial::package quality)
     : quality_(quality),
       quantity_(quantity),
       tracker_(ctx, this),
