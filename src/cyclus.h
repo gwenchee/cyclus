@@ -29,6 +29,7 @@ extern "C" {
 #include "material.h"
 #include "mock_sim.h"
 #include "agent.h"
+#include "packagedmaterial.h"
 #include "pyhooks.h"
 #include "pyne.h"
 #include "query_backend.h"
@@ -50,6 +51,7 @@ extern "C" {
 #endif
 #include "toolkit/matl_buy_policy.h"
 #include "toolkit/matl_sell_policy.h"
+#include "toolkit/packagedmatl_sell_policy.h"
 #include "toolkit/commodity.h"
 #include "toolkit/commodity_producer.h"
 #include "toolkit/commodity_producer_manager.h"
