@@ -23,7 +23,7 @@ class PackagedMaterial : public Resource {
  public:
   typedef boost::shared_ptr<PackagedMaterial> Ptr;
   typedef std::vector<Material::Ptr> matstream;
-  typedef std::pair<matstream, std::map<std::string, std::map<std::string, double>>> package;
+  typedef std::pair<matstream, std::map<std::string, std::map<std::string, int>>> package;
   static const ResourceType kType;
 
   /// Creates a new product that is "live" and tracked. creator is a
