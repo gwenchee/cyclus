@@ -366,6 +366,41 @@ enum DbTypes {
   VL_MAP_VL_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["VL_MAP", "STRING", "INT"]], true]
   VL_MAP_VL_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["VL_MAP", "VL_STRING", "INT"]], true]
 
+  // pair<vector<boost::uuids::uuid> , map<string,  map<string,  double> > >
+  PAIR_VECTOR_UUID_MAP_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["MAP", "STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_MAP_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["MAP", "VL_STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_MAP_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["VL_MAP", "STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_MAP_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["VL_MAP", "VL_STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_MAP_VL_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["MAP", "STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_MAP_VL_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["VL_MAP", "STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_MAP_VL_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["MAP", "VL_STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_MAP_VL_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["VL_MAP", "VL_STRING", "INT"]], false]
+  PAIR_VECTOR_UUID_VL_MAP_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["MAP", "STRING", "INT"]], true]
+  PAIR_VECTOR_UUID_VL_MAP_VL_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["MAP", "STRING", "INT"]], true]
+  PAIR_VECTOR_UUID_VL_MAP_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["VL_MAP", "STRING", "INT"]], true]
+  PAIR_VECTOR_UUID_VL_MAP_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["MAP", "VL_STRING", "INT"]], true]
+  PAIR_VECTOR_UUID_VL_MAP_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["VL_MAP", "VL_STRING", "INT"]], true]
+  PAIR_VECTOR_UUID_VL_MAP_VL_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["MAP", "VL_STRING", "INT"]], true]
+  PAIR_VECTOR_UUID_VL_MAP_VL_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["VL_MAP", "STRING", "INT"]], true]
+  PAIR_VECTOR_UUID_VL_MAP_VL_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["VL_MAP", "VL_STRING", "INT"]], true]
+  PAIR_VL_VECTOR_UUID_MAP_STRING_MAP_STRING_DOUBLE;
+  PAIR_VL_VECTOR_UUID_VL_MAP_STRING_MAP_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_MAP_VL_STRING_MAP_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_MAP_STRING_VL_MAP_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_MAP_STRING_MAP_VL_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_MAP_STRING_VL_MAP_VL_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_MAP_VL_STRING_MAP_VL_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_MAP_VL_STRING_VL_MAP_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_VL_MAP_STRING_MAP_VL_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_VL_MAP_STRING_VL_MAP_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_VL_MAP_VL_STRING_MAP_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_MAP_VL_STRING_VL_MAP_VL_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_VL_MAP_STRING_VL_MAP_VL_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_VL_MAP_VL_STRING_MAP_VL_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_VL_MAP_VL_STRING_VL_MAP_STRING_DOUBLE,
+  PAIR_VL_VECTOR_UUID_VL_MAP_VL_STRING_VL_MAP_VL_STRING_DOUBLE,
+
+
   // append new types only:
 };
 
