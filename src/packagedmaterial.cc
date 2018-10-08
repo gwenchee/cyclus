@@ -17,7 +17,7 @@ PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, double quantity,
     qualids_[quality] = next_qualid_++;
     creator->context()->NewDatum("PackagedMaterials")
         ->AddVal("QualId", qualids_[quality])
-        ->AddVal("Quality", quality)
+        ->AddVal("Quantity", quantity)
         ->Record();
   }
 
