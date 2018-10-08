@@ -18,7 +18,6 @@ PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, double quantity,
     creator->context()->NewDatum("PackagedMaterials")
         ->AddVal("QualId", qualids_[quality])
         ->AddVal("Quantity", quantity)
-        ->AddVal("Radiusofwasteform",quality.first[basic][radius])
         ->Record();
   }
 
