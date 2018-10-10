@@ -15,9 +15,11 @@ PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, double quantity,
                              PackagedMaterial::package quality) {
   if (qualids_.count(quality) == 0) {
     qualids_[quality] = next_qualid_++;
+    std::map<std::string, std::map<std::string, int>> mapmap = quality.second;
     creator->context()->NewDatum("PackagedMaterials")
         ->AddVal("QualId", qualids_[quality])
         ->AddVal("Quantity", quantity)
+	->AddVal(mapmap.begin()->first,mapmap.begin()->first)
         ->Record();
   }
 
