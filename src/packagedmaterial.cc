@@ -16,16 +16,12 @@ PackagedMaterial::Ptr PackagedMaterial::Create(Agent* creator, double quantity,
   if (qualids_.count(quality) == 0) {
     qualids_[quality] = next_qualid_++;
     std::map<std::string, std::map<std::string, int>> mapmap = quality.second;
-    std::vector<std::string> layer;
     std::map<std::string, int> insidemap; 
-    std::vector<std::string> insidename;
     std::vector<int> insideval;
     std::vector<std::string> columnname;
     for (std::map<std::string, std::map<std::string, int>>::iterator it = mapmap.begin();it!=mapmap.end(); ++it){
-      layer.push_back(it->first); 
       insidemap = it->second; 
       for (std::map<std::string, int>::iterator itt = insidemap.begin();itt!=insidemap.end();++itt){
-        insidename.push_back(itt->first);
         insideval.push_back(itt->second);
         columnname.push_back(it->first + itt->first); 
       }
