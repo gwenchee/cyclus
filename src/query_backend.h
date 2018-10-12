@@ -348,6 +348,24 @@ enum DbTypes {
   VL_MAP_PAIR_VL_STRING_STRING_INT, // ["std::map<std::pair<std::string, std::string>, int>", 4, ["HDF5","SQLite"], ["VL_MAP", ["PAIR", "VL_STRING", "STRING"], "INT"], true]
   VL_MAP_PAIR_VL_STRING_VL_STRING_INT, // ["std::map<std::pair<std::string, std::string>, int>", 4, ["HDF5","SQLite"], ["VL_MAP", ["PAIR", "VL_STRING", "VL_STRING"], "INT"], true]
 
+  // map<string,  map<string,  double> >
+  MAP_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["MAP", "STRING", "INT"]], false]
+  MAP_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["MAP", "VL_STRING", "INT"]], false]
+  MAP_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["VL_MAP", "STRING", "INT"]], false]
+  MAP_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "STRING", ["VL_MAP", "VL_STRING", "INT"]], false]
+  MAP_VL_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["MAP", "STRING", "INT"]], false]
+  MAP_VL_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["VL_MAP", "STRING", "INT"]], false]
+  MAP_VL_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["MAP", "VL_STRING", "INT"]], false]
+  MAP_VL_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["MAP", "VL_STRING", ["VL_MAP", "VL_STRING", "INT"]], false]
+  VL_MAP_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["MAP", "STRING", "INT"]], true]
+  VL_MAP_VL_STRING_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["MAP", "STRING", "INT"]], true]
+  VL_MAP_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["VL_MAP", "STRING", "INT"]], true]
+  VL_MAP_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["MAP", "VL_STRING", "INT"]], true]
+  VL_MAP_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "STRING", ["VL_MAP", "VL_STRING", "INT"]], true]
+  VL_MAP_VL_STRING_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["MAP", "VL_STRING", "INT"]], true]
+  VL_MAP_VL_STRING_VL_MAP_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["VL_MAP", "STRING", "INT"]], true]
+  VL_MAP_VL_STRING_VL_MAP_VL_STRING_DOUBLE,  // ["std::map<std::string, std::map<std::string, int>>", 3, ["HDF5", "SQLite"], ["VL_MAP", "VL_STRING", ["VL_MAP", "VL_STRING", "INT"]], true]
+
   // append new types only:
 };
 
