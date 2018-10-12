@@ -95,6 +95,16 @@ PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Init(Agent* manager, ResBuf<Packag
   return *this;
 }
 
+
+PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod) {
+  PackagedMaterial::package pack;
+  return Set(commod, pack, 1.0);
+}
+
+PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, PackagedMaterial::package pack) {
+  return Set(commod, pack, 1.0);
+}
+
 PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, PackagedMaterial::package pack, double pref) {
   CommodDetail d;
   d.pack = pack;
@@ -103,26 +113,6 @@ PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, PackagedMa
   return *this;
 }
 
-/*
-PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod) {
-  CompMap c;
-  c[10010000] = 1e-100;
-  return Set(commod, Composition::CreateFromMass(c), 1.0);
-}
-
-MatlBuyPolicy& MatlBuyPolicy::Set(std::string commod, Composition::Ptr c) {
-  return Set(commod, c, 1.0);
-}
-
-MatlBuyPolicy& MatlBuyPolicy::Set(std::string commod, Composition::Ptr c,
-                                  double pref) {
-  CommodDetail d;
-  d.comp = c;
-  d.pref = pref;
-  commod_details_[commod] = d;
-  return *this;
-}
-*/
 
 void PackagedMatlBuyPolicy::Start() {
   if (manager() == NULL) {

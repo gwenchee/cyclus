@@ -1,10 +1,11 @@
 
 #include <gtest/gtest.h>
 
-#include "toolkit/matl_buy_policy.h"
+#include "toolkit/packagedmatl_buy_policy.h"
 
 #include "composition.h"
 #include "material.h"
+#include "packagedmaterial.h"
 #include "request.h"
 #include "error.h"
 #include "toolkit/resource_buff.h"
@@ -15,12 +16,14 @@
 namespace cyclus {
 namespace toolkit {
 
+/*
 class TestComp : public Composition {
  public:
   TestComp() {}
 };
+*/
 
-class MatlBuyPolicyTests: public ::testing::Test {
+class PackagedMatlBuyPolicyTests: public ::testing::Test {
  protected:
   TestContext tc;
   TestFacility* fac1;
@@ -34,11 +37,11 @@ class MatlBuyPolicyTests: public ::testing::Test {
   }
 };
 
-TEST_F(MatlBuyPolicyTests, Init) {
+TEST_F(PackagedMatlBuyPolicyTests, Init) {
   double cap = 5;
-  ResBuf<Material> buff;
+  ResBuf<PackagedMaterial> buff;
   buff.capacity(cap);
-  MatlBuyPolicy p;
+  PackagedMatlBuyPolicy p;
 
   // defaults
   p.Init(fac1, &buff, "");
@@ -71,39 +74,42 @@ TEST_F(MatlBuyPolicyTests, Init) {
   ASSERT_EQ(p.NReq(), 1);
 
   // S,s with something in buffer
-  Composition::Ptr c;
-  buff.Push(Material::CreateUntracked(s, c));
+  //Composition::Ptr c;
+  PackagedMaterial::package pack;
+  buff.Push(PackagedMaterial::CreateUntracked(s, pack));
   ASSERT_FLOAT_EQ(p.TotalQty(), S - s);
   ASSERT_FLOAT_EQ(p.ReqQty(), S - s);
   ASSERT_EQ(p.NReq(), 1);
 }
 
-TEST_F(MatlBuyPolicyTests, StartStop) {
+TEST_F(PackagedMatlBuyPolicyTests, StartStop) {
   double cap = 5;
-  ResBuf<Material> buff;
+  ResBuf<PackagedMaterial> buff;
   buff.capacity(cap);
-  MatlBuyPolicy p;
+  PackagedMatlBuyPolicy p;
   p.Init(NULL, &buff, "");
   ASSERT_THROW(p.Start(), ValueError);
   ASSERT_THROW(p.Stop(), ValueError);
 }
 
-TEST_F(MatlBuyPolicyTests, Reqs) {
+TEST_F(PackagedMatlBuyPolicyTests, Reqs) {
   double cap = 5;
-  ResBuf<Material> buff;
+  ResBuf<PackagedMaterial> buff;
   buff.capacity(cap);
   std::string commod1("foo"), commod2("bar");
   double p2 = 2.5;
-  cyclus::Composition::Ptr c1 = cyclus::Composition::Ptr(new TestComp()); 
-  cyclus::Composition::Ptr c2 = cyclus::Composition::Ptr(new TestComp()); 
-  MatlBuyPolicy p;
+  cyclus::PackagedMaterial::package pm1; 
+  cyclus::PackagedMaterial::package pm2; 
+  //cyclus::Composition::Ptr c1 = cyclus::Composition::Ptr(new TestComp()); 
+  //cyclus::Composition::Ptr c2 = cyclus::Composition::Ptr(new TestComp()); 
+  PackagedMatlBuyPolicy p;
   
   // two requests
-  p.Init(fac1, &buff, "").Set(commod1, c1).Set(commod2, c2, p2);
-  std::set<RequestPortfolio<Material>::Ptr> obs = p.GetMatlRequests();
+  p.Init(fac1, &buff, "").Set(commod1, pm1).Set(commod2, pm2, p2);
+  std::set<RequestPortfolio<PackagedMaterial>::Ptr> obs = p.GetPackagedMatlRequests();
   ASSERT_EQ(obs.size(), 1);
   ASSERT_EQ((*obs.begin())->requests().size(), 2);
-  Request<Material>* req = (*obs.begin())->requests().at(0);
+  Request<PackagedMaterial>* req = (*obs.begin())->requests().at(0);
   if (req->commodity() == commod1) {
     ASSERT_FLOAT_EQ(req->preference(), 1.);
     ASSERT_FLOAT_EQ((*obs.begin())->requests().at(1)->preference(), p2);
@@ -117,7 +123,7 @@ TEST_F(MatlBuyPolicyTests, Reqs) {
   // two portfolios with quantize
   double quantize = 2.5;
   p.Init(fac1, &buff, "", std::numeric_limits<double>::max(), 1, 1, quantize);
-  obs = p.GetMatlRequests();
+  obs = p.GetPackagedMatlRequests();
   ASSERT_EQ(obs.size(), 2);
   ASSERT_EQ((*obs.begin())->requests().size(), 2);
   ASSERT_EQ((*(obs.begin()++))->requests().size(), 2);
