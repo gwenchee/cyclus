@@ -27,19 +27,12 @@ class ResourceTest : public ::testing::Test {
     cyclus::CompMap v; v[922350000] = 1;
     cyclus::Composition::Ptr c = cyclus::Composition::CreateFromMass(v);
     cyclus::Agent* dummy = new Dummy(ctx);
+    cyclus::PackagedMaterial::package pk;
 
     m1 = Material::Create(dummy, 3, c);
     m2 = Material::Create(dummy, 7, c);
     p1 = Product::Create(dummy, 3, "bananas");
     p2 = Product::Create(dummy, 7, "bananas");
-
-    cyclus::PackagedMaterial::matstream ms;
-    cyclus::PackagedMaterial::package pk;
-    ms.push_back(m1);
-    ms.push_back(m2);
-
-    pm1 = PackagedMaterial::Create(dummy, 3, pk);
-    pm2 = PackagedMaterial::Create(dummy, 7, pk);
   }
 
   virtual void TearDown() {
@@ -83,35 +76,6 @@ TEST_F(ResourceTest, MaterialExtractGraphid) {
   EXPECT_LT(state_id, m3->state_id());
   EXPECT_NE(m1->state_id(), m3->state_id());
 }
-
-
-TEST_F(ResourceTest, PackagedMaterialAbsorbTrackid) {
-  int obj_id = pm1->obj_id();
-  pm1->Absorb(pm2);
-  EXPECT_EQ(obj_id, pm1->obj_id());
-}
-
-TEST_F(ResourceTest, PackagedMaterialAbsorbGraphid) {
-  int state_id = pm1->state_id();
-  pm1->Absorb(pm2);
-  EXPECT_LT(state_id, pm1->state_id());
-}
-
-TEST_F(ResourceTest, PackagedMaterialExtractTrackid) {
-  int obj_id = pm1->obj_id();
-  PackagedMaterial::Ptr pm3 = pm1->Extract(2);
-  EXPECT_EQ(obj_id, pm1->obj_id());
-  EXPECT_LT(obj_id, pm3->obj_id());
-}
-
-TEST_F(ResourceTest, PackagedMaterialExtractGraphid) {
-  int state_id = pm1->state_id();
-  PackagedMaterial::Ptr pm3 = pm1->Extract(2);
-  EXPECT_LT(state_id, pm1->state_id());
-  EXPECT_LT(state_id, pm3->state_id());
-  EXPECT_NE(pm1->state_id(), pm3->state_id());
-}
-
 
 TEST_F(ResourceTest, ProductAbsorbTrackid) {
   int obj_id = p1->obj_id();

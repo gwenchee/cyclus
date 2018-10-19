@@ -102,6 +102,7 @@ class PackagedMatlBuyPolicy : public Trader {
   /// @{
   PackagedMatlBuyPolicy& Set(std::string commod);
   PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial::package pack);
+  PackagedMatlBuyPolicy& Set(std::string commod, double pref);
   PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial::package pack, double pref);
   
   /// @}

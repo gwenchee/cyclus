@@ -105,6 +105,11 @@ PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, PackagedMa
   return Set(commod, pack, 1.0);
 }
 
+PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, double pref) {
+  PackagedMaterial::package pack;
+  return Set(commod, pack, 1.0);
+}
+
 PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, PackagedMaterial::package pack, double pref) {
   CommodDetail d;
   d.pack = pack;

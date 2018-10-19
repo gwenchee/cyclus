@@ -42,7 +42,7 @@ TEST_F(PackagedMatlBuyPolicyTests, Init) {
   ResBuf<PackagedMaterial> buff;
   buff.capacity(cap);
   PackagedMatlBuyPolicy p;
-
+  
   // defaults
   p.Init(fac1, &buff, "");
   ASSERT_FLOAT_EQ(p.TotalQty(), cap);
