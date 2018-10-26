@@ -1,17 +1,18 @@
-#ifndef CYCLUS_SRC_TOOLKIT_MATL_BUY_POLICY_H_
-#define CYCLUS_SRC_TOOLKIT_MATL_BUY_POLICY_H_
+#ifndef CYCLUS_SRC_TOOLKIT_PACKAGED_MATL_BUY_POLICY_H_
+#define CYCLUS_SRC_TOOLKIT_PACKAGED_MATL_BUY_POLICY_H_
 
 #include <string>
 
-#include "composition.h"
-#include "material.h"
+//#include "composition.h"
+//#include "material.h"
+#include "packagedmaterial.h"
 #include "res_buf.h"
 #include "trader.h"
 
 namespace cyclus {
 namespace toolkit {
 
-/// MatlBuyPolicy performs semi-automatic inventory management of a material
+/// PackagedMatlBuyPolicy performs semi-automatic inventory management of a material
 /// buffer by making requests and accepting materials in an attempt to fill the
 /// buffer fully every time step according to an (s, S) inventory policy (see
 /// [1]).
@@ -34,7 +35,7 @@ namespace toolkit {
 ///   ...
 ///
 ///  private:
-///   MatlBuyPolicy policy_;
+///   PackagedMatlBuyPolicy policy_;
 ///   ResBuf<Material> inbuf_;
 ///    ...
 /// }
@@ -53,13 +54,13 @@ namespace toolkit {
 ///
 /// @warn When a policy's managing agent is deallocated, you MUST either
 /// call the policy's Stop function or delete the policy. Otherwise SEGFAULT.
-class MatlBuyPolicy : public Trader {
+class PackagedMatlBuyPolicy : public Trader {
  public:
   /// Creates an uninitialized policy.  The Init function MUST be called before
   /// anything else is done with the policy.
-  MatlBuyPolicy();
+  PackagedMatlBuyPolicy();
 
-  virtual ~MatlBuyPolicy();
+  virtual ~PackagedMatlBuyPolicy();
 
   /// Configures the policy to keep buf filled to a certain fraction of its
   /// capacity every time step.
@@ -79,12 +80,12 @@ class MatlBuyPolicy : public Trader {
   /// @warning, (s, S) policy values are ambiguous for buffers with a capacity
   /// in (0, 1]. However that is a rare case.
   /// @{
-  MatlBuyPolicy& Init(Agent* manager, ResBuf<Material>* buf, std::string name);
-  MatlBuyPolicy& Init(Agent* manager, ResBuf<Material>* buf, std::string name,
+  PackagedMatlBuyPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name);
+  PackagedMatlBuyPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name,
                       double throughput);
-  MatlBuyPolicy& Init(Agent* manager, ResBuf<Material>* buf, std::string name,
+  PackagedMatlBuyPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name,
                       double fill_to, double req_when_under);
-  MatlBuyPolicy& Init(Agent* manager, ResBuf<Material>* buf, std::string name,
+  PackagedMatlBuyPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name,
                       double throughput, double fill_to,
                       double req_when_under, double quantize);
   /// @}
@@ -99,9 +100,9 @@ class MatlBuyPolicy : public Trader {
   /// @param c the composition to request for the given commodity
   /// @param pref the preference value for the commodity
   /// @{
-  MatlBuyPolicy& Set(std::string commod);
-  MatlBuyPolicy& Set(std::string commod, Composition::Ptr c);
-  MatlBuyPolicy& Set(std::string commod, Composition::Ptr c, double pref);
+  PackagedMatlBuyPolicy& Set(std::string commod);
+  PackagedMatlBuyPolicy& Set(std::string commod, Composition::Ptr c);
+  PackagedMatlBuyPolicy& Set(std::string commod, Composition::Ptr c, double pref);
   /// @}
 
   /// Registers this policy as a trader in the current simulation.  This
@@ -138,15 +139,15 @@ class MatlBuyPolicy : public Trader {
   /// Returns corresponding commodities from which each material object
   /// was received for the current time step. The data returned by this function
   /// are ONLY valid during the Tock phase of a time step.
-  inline const std::map<Material::Ptr, std::string>& rsrc_commods() {
+  inline const std::map<PackagedMaterial::Ptr, std::string>& rsrc_commods() {
       return rsrc_commods_;
   };
 
   /// Trader Methods
   /// @{
-  virtual std::set<RequestPortfolio<Material>::Ptr> GetMatlRequests();
-  virtual void AcceptMatlTrades(
-      const std::vector<std::pair<Trade<Material>, Material::Ptr> >& resps);
+  virtual std::set<RequestPortfolio<PackagedMaterial>::Ptr> GetPackagedMatlRequests();
+  virtual void AcceptPackagedMatlTrades(
+      const std::vector<std::pair<Trade<PackagedMaterial>, PackagedMaterial::Ptr> >& resps);
   /// }@
 
  private:
@@ -162,10 +163,10 @@ class MatlBuyPolicy : public Trader {
   void set_quantize(double x); 
   void set_throughput(double x); 
   
-  ResBuf<Material>* buf_;
+  ResBuf<PackagedMaterial>* buf_;
   std::string name_;
   double fill_to_, req_when_under_, quantize_, throughput_;
-  std::map<Material::Ptr, std::string> rsrc_commods_;
+  std::map<PackagedMaterial::Ptr, std::string> rsrc_commods_;
   std::map<std::string, CommodDetail> commod_details_;
 };
 
