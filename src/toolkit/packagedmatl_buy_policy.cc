@@ -155,7 +155,7 @@ std::set<RequestPortfolio<PackagedMaterial>::Ptr> PackagedMatlBuyPolicy::GetPack
       std::string commod = it->first;
       CommodDetail d = it->second;
       LG(INFO3) << "  - one " << amt << " kg request of " << commod;
-      PackagedMaterial::Ptr m = PackagedMaterial::CreateUntracked(req_amt, d.comp);
+      PackagedMaterial::Ptr m = PackagedMaterial::CreateUntracked(req_amt, d.pack);
       grps[i].push_back(port->AddRequest(m, this, commod, d.pref, excl));
     }
 

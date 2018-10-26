@@ -154,6 +154,7 @@ class PackagedMatlBuyPolicy : public Trader {
   struct CommodDetail {
     Composition::Ptr comp;
     double pref;
+    PackagedMaterial::package pack; 
   };
 
   /// requires buf_ already set
