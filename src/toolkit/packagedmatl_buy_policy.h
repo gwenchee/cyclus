@@ -101,8 +101,8 @@ class PackagedMatlBuyPolicy : public Trader {
   /// @param pref the preference value for the commodity
   /// @{
   PackagedMatlBuyPolicy& Set(std::string commod);
-  PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial:package);
-  PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial:package, double pref);
+  PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial::package);
+  PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial::package, double pref);
   /// @}
 
   /// Registers this policy as a trader in the current simulation.  This
