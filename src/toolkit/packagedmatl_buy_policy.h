@@ -3,7 +3,7 @@
 
 #include <string>
 
-//#include "composition.h"
+#include "composition.h"
 //#include "material.h"
 #include "packagedmaterial.h"
 #include "res_buf.h"
