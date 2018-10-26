@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "composition.h"
+//#include "composition.h"
 //#include "material.h"
 #include "packagedmaterial.h"
 #include "res_buf.h"
@@ -101,8 +101,8 @@ class PackagedMatlBuyPolicy : public Trader {
   /// @param pref the preference value for the commodity
   /// @{
   PackagedMatlBuyPolicy& Set(std::string commod);
-  PackagedMatlBuyPolicy& Set(std::string commod, Composition::Ptr c);
-  PackagedMatlBuyPolicy& Set(std::string commod, Composition::Ptr c, double pref);
+  PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial:package);
+  PackagedMatlBuyPolicy& Set(std::string commod, PackagedMaterial:package, double pref);
   /// @}
 
   /// Registers this policy as a trader in the current simulation.  This
@@ -152,7 +152,7 @@ class PackagedMatlBuyPolicy : public Trader {
 
  private:
   struct CommodDetail {
-    Composition::Ptr comp;
+    //Composition::Ptr comp;
     double pref;
     PackagedMaterial::package pack; 
   };
