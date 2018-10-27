@@ -126,6 +126,8 @@ std::set<BidPortfolio<PackagedMaterial>::Ptr> PackagedMatlSellPolicy::GetPackage
   if (buf_->empty() || buf_->quantity() < eps())
     return ports;
 
+  std::cout << "in packaged material sell" << std::endl;
+
   BidPortfolio<PackagedMaterial>::Ptr port(new BidPortfolio<PackagedMaterial>());
 
   double limit = Limit();
