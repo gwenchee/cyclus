@@ -50,7 +50,7 @@ class PackagedMaterial : public Resource {
 
   virtual void Record(Context* ctx) const {}
 
-  virtual std::string units() const { return "NONE"; }
+  virtual std::string units() const { return "kg"; }
 
   virtual double quantity() const {
     return quantity_;
