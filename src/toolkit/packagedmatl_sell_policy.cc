@@ -4,7 +4,7 @@
 
 #define LG(X) LOG(LEV_##X, "selpol")
 #define LGH(X)                                                    \
-  LOG(LEV_##X, "selpol") << "policy " << name_ << " (agent "      \
+  LOG(LEV_##X, "pmselpol") << "policy " << name_ << " (agent "      \
                          << Trader::manager()->prototype() << "-" \
                          << Trader::manager()->id() << "): "
 
@@ -15,8 +15,7 @@ PackagedMatlSellPolicy::PackagedMatlSellPolicy() :
     Trader(NULL),
     name_(""),
     quantize_(-1),
-    throughput_(std::numeric_limits<double>::max()),
-    ignore_comp_(false) {
+    throughput_(std::numeric_limits<double>::max()) {
   Warn<EXPERIMENTAL_WARNING>(
       "PackagedMatlSellPolicy is experimental and its API may be subject to change");
 }
@@ -35,16 +34,18 @@ void PackagedMatlSellPolicy::set_throughput(double x) {
   assert(x >= 0);
   throughput_ = x;
 }
-
+/*
 void PackagedMatlSellPolicy::set_ignore_comp(bool x) {
   ignore_comp_ = x;
-}
+}*/
 
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<PackagedMaterial>* buf,
                                      std::string name) {
+                                       
   Trader::manager_ = manager;
   buf_ = buf;
   name_ = name;
+  LGH(INFO3) << "pmsellpo init " ;
   return *this;
 }
 
@@ -56,40 +57,40 @@ PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<Pack
   set_throughput(throughput);
   return *this;
 }
-
+/*
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<PackagedMaterial>* buf,
-                                     std::string name, bool ignore_comp) {
+                                     std::string name) {
   Trader::manager_ = manager;
   buf_ = buf;
   name_ = name;
-  set_ignore_comp(ignore_comp);
+  //set_ignore_comp(ignore_comp);
   return *this;
-}
-
+}*/
+/*
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<PackagedMaterial>* buf,
-                                     std::string name, double throughput,
-                                     bool ignore_comp) {
+                                     std::string name, double throughput) {
   Trader::manager_ = manager;
   buf_ = buf;
   name_ = name;
   set_throughput(throughput);
-  set_ignore_comp(ignore_comp);
+  //set_ignore_comp(ignore_comp);
   return *this;
-}
+}*/
 
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<PackagedMaterial>* buf,
                                      std::string name, double throughput,
-                                     bool ignore_comp, double quantize) {
+                                    double quantize) {
   Trader::manager_ = manager;
   buf_ = buf;
   name_ = name;
   set_quantize(quantize);
   set_throughput(throughput);
-  set_ignore_comp(ignore_comp);
+  //set_ignore_comp(ignore_comp);
   return *this;
 }
 
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Set(std::string commod) {
+  LGH(INFO3) << "pmsellpo set " ;
   commods_.insert(commod);
   return *this;
 }
@@ -100,6 +101,7 @@ void PackagedMatlSellPolicy::Start() {
     ss << "No manager set on Sell Policy " << name_;
     throw ValueError(ss.str());
   }
+  LGH(INFO3) << "pmsellpo starts " ;
   manager()->context()->RegisterTrader(this);
 }
 
@@ -122,6 +124,7 @@ double PackagedMatlSellPolicy::Limit() const {
 
 std::set<BidPortfolio<PackagedMaterial>::Ptr> PackagedMatlSellPolicy::GetPackagedMatlBids(
     CommodMap<PackagedMaterial>::type& commod_requests) {
+      LGH(INFO3) << "pmsellpo packagematlbids " ;
   std::set<BidPortfolio<PackagedMaterial>::Ptr> ports;
   if (buf_->empty() || buf_->quantity() < eps())
     return ports;

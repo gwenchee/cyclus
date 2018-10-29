@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "composition.h"
-#include "material.h"
+//#include "composition.h"
+//#include "material.h"
 #include "res_buf.h"
 #include "trader.h"
 #include "packagedmaterial.h"
@@ -79,11 +79,7 @@ class PackagedMatlSellPolicy : public Trader {
   PackagedMatlSellPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name,
                        double throughput);
   PackagedMatlSellPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name,
-                       bool ignore_comp);
-  PackagedMatlSellPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name,
-                       double throughput, bool ignore_comp);
-  PackagedMatlSellPolicy& Init(Agent* manager, ResBuf<PackagedMaterial>* buf, std::string name,
-                       double throughput, bool ignore_comp, 
+                       double throughput, 
                        double quantize);
   /// @}
   
@@ -124,14 +120,14 @@ class PackagedMatlSellPolicy : public Trader {
  private:
   void set_quantize(double x);
   void set_throughput(double x);
-  void set_ignore_comp(bool x);
+  //void set_ignore_comp(bool x);
   
   ResBuf<PackagedMaterial>* buf_;
   std::set<std::string> commods_;
   double quantize_;
   double throughput_;
   std::string name_;
-  bool ignore_comp_;
+  //bool ignore_comp_;
 };
 
 }  // namespace toolkit
