@@ -42,7 +42,7 @@ class PackagedMatlSellPolicyTests: public ::testing::Test {
   }
 };
 
-
+/*
 TEST_F(PackagedMatlSellPolicyTests, Init) {
   PackagedMatlSellPolicy p;
 
@@ -125,6 +125,6 @@ TEST_F(PackagedMatlSellPolicyTests, Trades) {
   delete bid;
   delete req;
 }
-
+*/
 }
 }
