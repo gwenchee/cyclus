@@ -8,6 +8,7 @@
 #include "exchange_context.h"
 #include "product.h"
 #include "material.h"
+#include "packagedmaterial.h"
 #include "request_portfolio.h"
 #include "trade.h"
 
@@ -41,6 +42,12 @@ class Trader {
     return std::set<RequestPortfolio<Product>::Ptr>();
   }
 
+  /// @brief default implementation for packagedmaterial requests
+  virtual std::set<RequestPortfolio<PackagedMaterial>::Ptr>
+      GetPackagedMatlRequests() {
+    return std::set<RequestPortfolio<PackagedMaterial>::Ptr>();
+  }
+
   /// @brief default implementation for material requests
   virtual std::set<BidPortfolio<Material>::Ptr>
       GetMatlBids(CommodMap<Material>::type& commod_requests) {
@@ -53,11 +60,20 @@ class Trader {
     return std::set<BidPortfolio<Product>::Ptr>();
   }
 
+  /// @brief default implementation for packagedmaterial requests
+  virtual std::set<BidPortfolio<PackagedMaterial>::Ptr>
+      GetPackagedMatlBids(CommodMap<PackagedMaterial>::type& commod_requests) {
+    return std::set<BidPortfolio<PackagedMaterial>::Ptr>();
+  }
+
   /// default implementation for material preferences.
   virtual void AdjustMatlPrefs(PrefMap<Material>::type& prefs) {}
 
   /// default implementation for material preferences.
   virtual void AdjustProductPrefs(PrefMap<Product>::type& prefs) {}
+
+  /// default implementation for packagedmaterial preferences.
+  virtual void AdjustPackagedMatlPrefs(PrefMap<PackagedMaterial>::type& prefs) {}
 
   /// @brief default implementation for responding to material trades
   /// @param trades all trades in which this trader is the supplier
@@ -74,6 +90,10 @@ class Trader {
       std::vector<std::pair<Trade<Product>,
       Product::Ptr> >& responses) {}
 
+  virtual void GetPackagedMatlTrades(
+      const std::vector< Trade<PackagedMaterial> >& trades,
+      std::vector<std::pair<Trade<PackagedMaterial>, PackagedMaterial::Ptr> >& responses) {}
+
   /// @brief default implementation for material trade acceptance
   virtual void AcceptMatlTrades(
       const std::vector<std::pair<Trade<Material>,
@@ -83,6 +103,11 @@ class Trader {
   virtual void AcceptProductTrades(
       const std::vector<std::pair<Trade<Product>,
       Product::Ptr> >& responses) {}
+
+  /// @brief default implementation for material trade acceptance
+  virtual void AcceptPackagedMatlTrades(
+      const std::vector<std::pair<Trade<PackagedMaterial>,
+      PackagedMaterial::Ptr> >& responses) {}
 
  protected:
   Agent* manager_;
@@ -101,6 +126,12 @@ class Trader {
       GetProductBids(const CommodMap<Product>::type& commod_requests) {
     return std::set<BidPortfolio<Product>::Ptr>();
   }
+
+  virtual std::set<BidPortfolio<PackagedMaterial>::Ptr>
+      GetPackagedMatlBids(const CommodMap<PackagedMaterial>::type& commod_requests) {
+    return std::set<BidPortfolio<PackagedMaterial>::Ptr>();
+  }
+
 };
 
 }  // namespace cyclus
