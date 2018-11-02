@@ -4,9 +4,9 @@
 
 #include "error.h"
 
-#define LG(X) LOG(LEV_##X, "buypol")
+#define LG(X) LOG(LEV_##X, "pmbuypol")
 #define LGH(X)                                                    \
-  LOG(LEV_##X, "buypol") << "policy " << name_ << " (agent "      \
+  LOG(LEV_##X, "pmbuypol") << "policy " << name_ << " (agent "      \
                          << Trader::manager()->prototype() << "-" \
                          << Trader::manager()->id() << "): "
 

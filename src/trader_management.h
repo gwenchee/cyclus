@@ -5,6 +5,7 @@
 #include "exchange_context.h"
 #include "product.h"
 #include "material.h"
+#include "packagedmaterial.h"
 #include "trader.h"
 
 namespace cyclus {
@@ -28,6 +29,12 @@ inline std::set<RequestPortfolio<Product>::Ptr>
   return t->GetProductRequests();
 }
 
+template<>
+inline std::set<RequestPortfolio<PackagedMaterial>::Ptr>
+    QueryRequests<PackagedMaterial>(Trader* t) {
+  return t->GetPackagedMatlRequests();
+}
+
 template<class T>
 inline static std::set<typename BidPortfolio<T>::Ptr>
     QueryBids(Trader* t, typename CommodMap<T>::type& map) {
@@ -44,6 +51,12 @@ template<>
 inline std::set<BidPortfolio<Product>::Ptr>
     QueryBids<Product>(Trader* t, CommodMap<Product>::type& map) {
   return t->GetProductBids(map);
+}
+
+template<>
+inline std::set<BidPortfolio<PackagedMaterial>::Ptr>
+    QueryBids<PackagedMaterial>(Trader* t, CommodMap<PackagedMaterial>::type& map) {
+  return t->GetPackagedMatlBids(map);
 }
 
 template<class T>
@@ -71,6 +84,14 @@ inline void PopulateTradeResponses<Product>(
   trader->GetProductTrades(trades, responses);
 }
 
+template<>
+inline void PopulateTradeResponses<PackagedMaterial>(
+    Trader* trader,
+    const std::vector< Trade<PackagedMaterial> >& trades,
+    std::vector<std::pair<Trade<PackagedMaterial>, PackagedMaterial::Ptr> >& responses) {
+  dynamic_cast<Trader*>(trader)->GetPackagedMatlTrades(trades, responses);
+}
+
 template<class T>
 inline static void AcceptTrades(
     Trader* trader,
@@ -90,6 +111,13 @@ inline void AcceptTrades(
     Trader* trader,
     const std::vector< std::pair<Trade<Product>, Product::Ptr> >& responses) {
   trader->AcceptProductTrades(responses);
+}
+
+template<>
+inline void AcceptTrades(
+    Trader* trader,
+    const std::vector< std::pair<Trade<PackagedMaterial>, PackagedMaterial::Ptr> >& responses) {
+  dynamic_cast<Trader*>(trader)->AcceptPackagedMatlTrades(responses);
 }
 
 }  // namespace cyclus
