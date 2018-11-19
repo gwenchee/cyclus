@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "composition.h"
-#include "material.h"
+//#include "composition.h"
+//#include "material.h"
 #include "res_buf.h"
 #include "trader.h"
 #include "packagedmaterial.h"

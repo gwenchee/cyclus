@@ -10,6 +10,7 @@
 #include "resource_helpers.h"
 #include "test_agents/test_facility.h"
 #include "trade.h"
+#include "packagedmaterial.h"
 
 namespace cyclus {
 
@@ -21,6 +22,7 @@ class TestObjFactory {
   }
 
   Material::Ptr mat;
+  PackagedMaterial::Ptr pacmat;
   std::string commod;
 };
 
@@ -68,6 +70,21 @@ class TestTrader : public TestFacility {
       return ports;
     }
   }
+/*
+  virtual std::set<RequestPortfolio<PackagedMaterial>::Ptr>
+      GetPackagedMatlRequests() {
+    requests++;
+    if (obj_fac == NULL || !is_requester) {
+      return std::set<RequestPortfolio<PackagedMaterial>::Ptr>();
+    } else {
+      std::set<RequestPortfolio<PackagedMaterial>::Ptr> ports;
+      RequestPortfolio<PackagedMaterial>::Ptr port(new RequestPortfolio<PackagedMaterial>());
+      req = port->AddRequest(obj_fac->pacmat, this, obj_fac->commod);  // exp request
+      reqport = port;
+      ports.insert(port);
+      return ports;
+    }
+  }  */
 
   virtual std::set<BidPortfolio<Material>::Ptr>
       GetMatlBids(CommodMap<Material>::type& commod_requests) {
@@ -119,6 +136,14 @@ class TestTrader : public TestFacility {
   RequestPortfolio<Material>::Ptr reqport;
   Trade<Material> obs_trade;  // obs trade
   Material::Ptr mat;  // obs mat
+  /*
+  Request<PackagedMaterial>* pmreq;  // obs or exp
+  Bid<PackagedMaterial>* pmbid;  // obs or exp
+  BidPortfolio<PackagedMaterial>::Ptr pmbidport;
+  RequestPortfolio<PackagedMaterial>::Ptr pmreqport;
+  Trade<PackagedMaterial> pmobs_trade;  // obs trade
+  Material::Ptr pacmat;  // obs mat
+  */
   bool is_requester;
   int accept, offer, requests, bids, adjusts;
 };

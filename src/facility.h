@@ -13,6 +13,7 @@ namespace cyclus {
 
 // forward declare Material class to avoid full inclusion and dependency
 class Material;
+class PackagedMaterial;
 class Institution;
 
 /// @class Facility
@@ -116,6 +117,12 @@ class Facility : public TimeListener, public Agent, public Trader {
     return std::set<RequestPortfolio<Product>::Ptr>();
   }
 
+  /// @brief default implementation for Packagedmaterial requests
+  virtual std::set<RequestPortfolio<PackagedMaterial>::Ptr>
+      GetPackagedMatlRequests() {
+    return std::set<RequestPortfolio<PackagedMaterial>::Ptr>();
+  }
+
   /// @brief default implementation for material requests
   virtual std::set<BidPortfolio<Material>::Ptr>
       GetMatlBids(CommodMap<Material>::type& commod_requests) {
@@ -128,11 +135,20 @@ class Facility : public TimeListener, public Agent, public Trader {
     return std::set<BidPortfolio<Product>::Ptr>();
   }
 
+  /// @brief default implementation for Packagedmaterial requests
+  virtual std::set<BidPortfolio<PackagedMaterial>::Ptr>
+      GetPackagedMatlBids(CommodMap<PackagedMaterial>::type& commod_requests) {
+    return std::set<BidPortfolio<PackagedMaterial>::Ptr>();
+  }
+
   /// default implementation for material preferences.
   virtual void AdjustMatlPrefs(PrefMap<Material>::type& prefs) {}
 
   /// default implementation for material preferences.
   virtual void AdjustProductPrefs(PrefMap<Product>::type& prefs) {}
+
+  /// default implementation for material preferences.
+  virtual void AdjustPackagedMatlPrefs(PrefMap<PackagedMaterial>::type& prefs) {} 
 
   /// @brief default implementation for responding to material trades
   /// @param trades all trades in which this trader is the supplier
@@ -151,6 +167,15 @@ class Facility : public TimeListener, public Agent, public Trader {
       std::vector<std::pair<Trade<Product>,
       Product::Ptr> >& responses) {}
 
+  /// @brief default implementation for responding to material trades
+  /// @param trades all trades in which this trader is the supplier
+  /// @param responses a container to populate with responses to each trade
+  virtual void GetPackagedMatlTrades(
+      const std::vector< Trade<PackagedMaterial> >& trades,
+      std::vector<std::pair<Trade<PackagedMaterial>, PackagedMaterial::Ptr> >& responses) {
+    std::cout << "in material facility getpackagedmatltrades\n";
+    }
+
   /// @brief default implementation for material trade acceptance
   virtual void AcceptMatlTrades(
       const std::vector<std::pair<Trade<Material>,
@@ -160,6 +185,11 @@ class Facility : public TimeListener, public Agent, public Trader {
   virtual void AcceptProductTrades(
       const std::vector<std::pair<Trade<Product>,
       Product::Ptr> >& responses) {}
+
+  /// @brief default implementation for material trade acceptance
+  virtual void AcceptPackagedMatlTrades(
+      const std::vector<std::pair<Trade<PackagedMaterial>,
+      PackagedMaterial::Ptr> >& responses) {}
 
 };
 

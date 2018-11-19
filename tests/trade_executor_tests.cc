@@ -17,10 +17,12 @@
 #include "trade.h"
 #include "trade_executor.h"
 #include "trader.h"
+#include "packagedmaterial.h"
 
 using cyclus::Bid;
 using cyclus::Context;
 using cyclus::Material;
+using cyclus::PackagedMaterial;
 using cyclus::Agent;
 using cyclus::Request;
 using cyclus::TestContext;

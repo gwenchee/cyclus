@@ -515,6 +515,20 @@ Product::Ptr SimInit::BuildProduct(QueryableBackend* b, int resid) {
   p->ctx_ = NULL;
   return p;
 }
+/*
+PackagedMaterial::Ptr SimInit::BuildPackagedMaterial(QueryableBackend* b, int resid) {
+  Timer ti;
+  Recorder rec;
+  Context ctx(&ti, &rec);
+
+  // manually make this "untracked" to prevent segfaulting and other such
+  // terrors because the created context is destructed by SimInit at the end
+  // of this function.
+  PackagedMaterial::Ptr pm = ResCast<PackagedMaterial>(SimInit::LoadResource(&ctx, b, resid));
+  pm->tracker_.DontTrack();
+  pm->ctx_ = NULL;
+  return pm;
+}*/
 
 Resource::Ptr SimInit::LoadResource(Context* ctx, QueryableBackend* b, int state_id) {
   std::vector<Cond> conds;
@@ -528,7 +542,9 @@ Resource::Ptr SimInit::LoadResource(Context* ctx, QueryableBackend* b, int state
     r = LoadMaterial(ctx, b, state_id);
   } else if (type == Product::kType) {
     r = LoadProduct(ctx, b, state_id);
-  } else {
+  } /*else if (type == PackagedMaterial::kType) {
+    r = LoadPackagedMaterial(ctx, b, state_id);
+  }*/ else {
     throw IOError("Invalid resource type in output database: " + type);
   }
 

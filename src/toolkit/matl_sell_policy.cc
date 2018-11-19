@@ -100,6 +100,7 @@ void MatlSellPolicy::Start() {
     ss << "No manager set on Sell Policy " << name_;
     throw ValueError(ss.str());
   }
+  std::cout << "start" << std::endl;  
   manager()->context()->RegisterTrader(this);
 }
 
@@ -114,6 +115,7 @@ void MatlSellPolicy::Stop() {
 
 
 double MatlSellPolicy::Limit() const {
+  std::cout << "limit" << std::endl; 
   double bcap = buf_->quantity();
   double limit = Excl() ?                                               \
                  quantize_ * static_cast<int>(std::floor(bcap / quantize_)) : bcap;
@@ -122,6 +124,7 @@ double MatlSellPolicy::Limit() const {
 
 std::set<BidPortfolio<Material>::Ptr> MatlSellPolicy::GetMatlBids(
     CommodMap<Material>::type& commod_requests) {
+      std::cout << "getmatlbids" << std::endl; 
   std::set<BidPortfolio<Material>::Ptr> ports;
   if (buf_->empty() || buf_->quantity() < eps())
     return ports;
@@ -171,6 +174,7 @@ std::set<BidPortfolio<Material>::Ptr> MatlSellPolicy::GetMatlBids(
 void MatlSellPolicy::GetMatlTrades(
     const std::vector<Trade<Material> >& trades,
     std::vector<std::pair<Trade<Material>, Material::Ptr> >& responses) {
+      std::cout << "getmatltrades" << std::endl;  
   Composition::Ptr c;
   std::vector<Trade<Material> >::const_iterator it;
   for (it = trades.begin(); it != trades.end(); ++it) {

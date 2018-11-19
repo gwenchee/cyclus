@@ -91,6 +91,7 @@ PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<Pack
 }
 
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Set(std::string commod) {
+  std::cout << "set" << std::endl;  
   commods_.insert(commod);
   return *this;
 }
@@ -103,6 +104,7 @@ void PackagedMatlSellPolicy::Start() {
   }
   std::cout << "start" << std::endl; 
   manager()->context()->RegisterTrader(this);
+  std::cout << "start2" << std::endl; 
 }
 
 void PackagedMatlSellPolicy::Stop() {
@@ -116,6 +118,7 @@ void PackagedMatlSellPolicy::Stop() {
 
 
 double PackagedMatlSellPolicy::Limit() const {
+  std::cout << "limit" << std::endl; 
   double bcap = buf_->quantity();
   double limit = Excl() ?                                               \
                  quantize_ * static_cast<int>(std::floor(bcap / quantize_)) : bcap;
