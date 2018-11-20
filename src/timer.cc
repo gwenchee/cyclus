@@ -84,9 +84,11 @@ void Timer::DoTick() {
 }
 
 void Timer::DoResEx(ExchangeManager<Material>* matmgr,
-                    ExchangeManager<Product>* genmgr) {
+                    ExchangeManager<Product>* genmgr,
+                    ExchangeManager<PackagedMaterial>* pacmatmgr) {
   matmgr->Execute();
   genmgr->Execute();
+  pacmatmgr->Execute();
 }
 
 void Timer::DoTock() {
