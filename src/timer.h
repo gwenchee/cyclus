@@ -8,6 +8,7 @@
 #include "exchange_manager.h"
 #include "product.h"
 #include "material.h"
+#include "packagedmaterial.h"
 #include "infile_tree.h"
 #include "time_listener.h"
 #include "comp_math.h"
