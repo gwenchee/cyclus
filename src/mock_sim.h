@@ -218,6 +218,10 @@ class MockSim {
   /// the given resource state id.
   Product::Ptr GetProduct(int resid);
 
+  /// Reconstructs a product object from the simulation results database with
+  /// the given resource state id.
+  PackagedMaterial::Ptr GetPackagedMaterial(int resid);
+
   /// Returns the underlying in-memory database containing results for
   /// the simulation.  Run must be called before the database will contain
   /// anything.

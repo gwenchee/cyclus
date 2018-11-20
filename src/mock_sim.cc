@@ -233,6 +233,10 @@ Product::Ptr MockSim::GetProduct(int resid) {
   return SimInit::BuildProduct(back_, resid);
 }
 
+PackagedMaterial::Ptr MockSim::GetPackagedMaterial(int resid) {
+  return SimInit::BuildPackagedMaterial(back_, resid);
+}
+
 SqliteBack& MockSim::db() { return *back_; }
 
 }  // namespace cyclus
