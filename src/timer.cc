@@ -34,7 +34,7 @@ void Timer::RunSim() {
     CLOG(LEV_INFO2) << "Beginning Tick for time: " << time_;
     DoTick();
     CLOG(LEV_INFO2) << "Beginning DRE for time: " << time_;
-    DoResEx(&matl_manager, &genrsrc_manager/* , &pacmatl_manager*/);
+    DoResEx(&matl_manager, &genrsrc_manager , &pacmatl_manager);
     CLOG(LEV_INFO2) << "Beginning Tock for time: " << time_;
     DoTock();
     DoDecom();
@@ -88,7 +88,7 @@ void Timer::DoResEx(ExchangeManager<Material>* matmgr,
                     ExchangeManager<PackagedMaterial>* pacmatmgr) {
   matmgr->Execute();
   genmgr->Execute();
-  /*pacmatmgr->Execute()*/;
+  pacmatmgr->Execute();
 }
 
 void Timer::DoTock() {
