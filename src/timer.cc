@@ -20,7 +20,7 @@ void Timer::RunSim() {
 
   ExchangeManager<Material> matl_manager(ctx_);
   ExchangeManager<Product> genrsrc_manager(ctx_);
-/*  ExchangeManager<PackagedMaterial> pacmatl_manager(ctx_);*/
+  ExchangeManager<PackagedMaterial> pacmatl_manager(ctx_);
   while (time_ < si_.duration) {
     CLOG(LEV_INFO1) << "Current time: " << time_;
 
@@ -84,8 +84,8 @@ void Timer::DoTick() {
 }
 
 void Timer::DoResEx(ExchangeManager<Material>* matmgr,
-                    ExchangeManager<Product>* genmgr/*,
-                    ExchangeManager<PackagedMaterial>* pacmatmgr*/) {
+                    ExchangeManager<Product>* genmgr,
+                    ExchangeManager<PackagedMaterial>* pacmatmgr) {
   matmgr->Execute();
   genmgr->Execute();
   /*pacmatmgr->Execute()*/;
