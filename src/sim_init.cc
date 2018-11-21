@@ -515,7 +515,7 @@ Product::Ptr SimInit::BuildProduct(QueryableBackend* b, int resid) {
   p->ctx_ = NULL;
   return p;
 }
-
+/*
 PackagedMaterial::Ptr SimInit::BuildPackagedMaterial(QueryableBackend* b, int resid) {
   Timer ti;
   Recorder rec;
@@ -528,7 +528,7 @@ PackagedMaterial::Ptr SimInit::BuildPackagedMaterial(QueryableBackend* b, int re
   pm->tracker_.DontTrack();
   pm->ctx_ = NULL;
   return pm;
-}
+}*/
 
 Resource::Ptr SimInit::LoadResource(Context* ctx, QueryableBackend* b, int state_id) {
   std::vector<Cond> conds;
@@ -542,9 +542,9 @@ Resource::Ptr SimInit::LoadResource(Context* ctx, QueryableBackend* b, int state
     r = LoadMaterial(ctx, b, state_id);
   } else if (type == Product::kType) {
     r = LoadProduct(ctx, b, state_id);
-  } else if (type == PackagedMaterial::kType) {
+  } /*else if (type == PackagedMaterial::kType) {
     r = LoadPackagedMaterial(ctx, b, state_id);
-  } else {
+  }*/ else {
     throw IOError("Invalid resource type in output database: " + type);
   }
 
@@ -615,7 +615,7 @@ Product::Ptr SimInit::LoadProduct(Context* ctx, QueryableBackend* b, int state_i
   ctx->DelAgent(dummy);
   return r;
 }
-
+/*
 PackagedMaterial::Ptr SimInit::LoadPackagedMaterial(Context* ctx, QueryableBackend* b, int state_id) {
   // get general resource object info
   std::vector<Cond> conds;
@@ -638,6 +638,6 @@ PackagedMaterial::Ptr SimInit::LoadPackagedMaterial(Context* ctx, QueryableBacke
   PackagedMaterial::Ptr r = PackagedMaterial::Create(dummy, qty, quality);
   ctx->DelAgent(dummy);
   return r;
-}
+}*/
 
 }  // namespace cyclus

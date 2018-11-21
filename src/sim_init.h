@@ -78,7 +78,7 @@ class SimInit {
   /// Convenience function for reconstructing an untracked material object with
   /// the given resource state id from a database backend b.  Particularly
   /// useful for running mock simulations/tests.
-  static PackagedMaterial::Ptr BuildPackagedMaterial(QueryableBackend* b, int resid);
+  /*static PackagedMaterial::Ptr BuildPackagedMaterial(QueryableBackend* b, int resid);*/
 
  private:
   void InitBase(QueryableBackend* b, boost::uuids::uuid simid, int t);
@@ -99,7 +99,7 @@ class SimInit {
   static Resource::Ptr LoadResource(Context* ctx, QueryableBackend* b, int resid);
   static Material::Ptr LoadMaterial(Context* ctx, QueryableBackend* b, int resid);
   static Product::Ptr LoadProduct(Context* ctx, QueryableBackend* b, int resid);
-  static PackagedMaterial::Ptr LoadPackagedMaterial(Context* ctx, QueryableBackend* b, int resid);
+  /*static PackagedMaterial::Ptr LoadPackagedMaterial(Context* ctx, QueryableBackend* b, int resid);*/
   static Composition::Ptr LoadComposition(QueryableBackend* b, int stateid);
 
   // std::map<AgentId, Agent*>
