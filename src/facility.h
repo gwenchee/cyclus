@@ -118,10 +118,11 @@ class Facility : public TimeListener, public Agent, public Trader {
   }
 
   /// @brief default implementation for Packagedmaterial requests
+  /*
   virtual std::set<RequestPortfolio<PackagedMaterial>::Ptr>
       GetPackagedMatlRequests() {
     return std::set<RequestPortfolio<PackagedMaterial>::Ptr>();
-  }
+  }*/
 
   /// @brief default implementation for material requests
   virtual std::set<BidPortfolio<Material>::Ptr>
@@ -136,10 +137,10 @@ class Facility : public TimeListener, public Agent, public Trader {
   }
 
   /// @brief default implementation for Packagedmaterial requests
-  virtual std::set<BidPortfolio<PackagedMaterial>::Ptr>
+  /*virtual std::set<BidPortfolio<PackagedMaterial>::Ptr>
       GetPackagedMatlBids(CommodMap<PackagedMaterial>::type& commod_requests) {
     return std::set<BidPortfolio<PackagedMaterial>::Ptr>();
-  }
+  }*/
 
   /// default implementation for material preferences.
   virtual void AdjustMatlPrefs(PrefMap<Material>::type& prefs) {}
@@ -148,8 +149,8 @@ class Facility : public TimeListener, public Agent, public Trader {
   virtual void AdjustProductPrefs(PrefMap<Product>::type& prefs) {}
 
   /// default implementation for material preferences.
-  virtual void AdjustPackagedMatlPrefs(PrefMap<PackagedMaterial>::type& prefs) {} 
-
+  /*virtual void AdjustPackagedMatlPrefs(PrefMap<PackagedMaterial>::type& prefs) {} 
+*/
   /// @brief default implementation for responding to material trades
   /// @param trades all trades in which this trader is the supplier
   /// @param responses a container to populate with responses to each trade
@@ -170,11 +171,11 @@ class Facility : public TimeListener, public Agent, public Trader {
   /// @brief default implementation for responding to material trades
   /// @param trades all trades in which this trader is the supplier
   /// @param responses a container to populate with responses to each trade
-  virtual void GetPackagedMatlTrades(
+  /*virtual void GetPackagedMatlTrades(
       const std::vector< Trade<PackagedMaterial> >& trades,
       std::vector<std::pair<Trade<PackagedMaterial>, PackagedMaterial::Ptr> >& responses) {
     std::cout << "in material facility getpackagedmatltrades\n";
-    }
+    }*/
 
   /// @brief default implementation for material trade acceptance
   virtual void AcceptMatlTrades(
@@ -187,9 +188,9 @@ class Facility : public TimeListener, public Agent, public Trader {
       Product::Ptr> >& responses) {}
 
   /// @brief default implementation for material trade acceptance
-  virtual void AcceptPackagedMatlTrades(
+  /*virtual void AcceptPackagedMatlTrades(
       const std::vector<std::pair<Trade<PackagedMaterial>,
-      PackagedMaterial::Ptr> >& responses) {}
+      PackagedMaterial::Ptr> >& responses) {}*/
 
 };
 
