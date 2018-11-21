@@ -329,10 +329,10 @@ class Agent : public StateWrangler, virtual public Ider {
 
   /// default implementation for material preferences.
   virtual void AdjustProductPrefs(PrefMap<Product>::type& prefs) {}
-/*
+
   /// default implementation for packagedmaterial preferences.
   virtual void AdjustPackagedMatlPrefs(PrefMap<PackagedMaterial>::type& prefs) {}
-*/
+
   /// Returns an agent's xml rng schema for initializing from input files. All
   /// concrete agents should override this function. This must validate the same
   /// xml input that the InfileToDb function receives.
