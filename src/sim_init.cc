@@ -616,4 +616,28 @@ Product::Ptr SimInit::LoadProduct(Context* ctx, QueryableBackend* b, int state_i
   return r;
 }
 
+PackagedMaterial::Ptr SimInit::LoadPackagedMaterial(Context* ctx, QueryableBackend* b, int state_id) {
+  // get general resource object info
+  std::vector<Cond> conds;
+  conds.push_back(Cond("ResourceId", "==", state_id));
+  QueryResult qr = b->Query("Resources", &conds);
+  double qty = qr.GetVal<double>("Quantity");
+  int stateid = qr.GetVal<int>("QualId");
+
+  // get special Product internal state
+  conds.clear();
+  conds.push_back(Cond("QualId", "==", stateid));
+  qr = b->Query("PackagedMaterials", &conds);
+  // Set up packagedmaterial quality (currently cheating)
+  cyclus::PackagedMaterial::package quality; 
+
+  // set static quality-stateid map to have same vals as db
+  PackagedMaterial::qualids_[quality] = stateid;
+
+  Agent* dummy = new Dummy(ctx);
+  PackagedMaterial::Ptr r = PackagedMaterial::Create(dummy, qty, quality);
+  ctx->DelAgent(dummy);
+  return r;
+}
+
 }  // namespace cyclus
