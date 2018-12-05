@@ -516,6 +516,20 @@ Product::Ptr SimInit::BuildProduct(QueryableBackend* b, int resid) {
   return p;
 }
 
+PackagedMaterial::Ptr SimInit::BuildPackagedMaterial(QueryableBackend* b, int resid) {
+  Timer ti;
+  Recorder rec;
+  Context ctx(&ti, &rec);
+
+  // manually make this "untracked" to prevent segfaulting and other such
+  // terrors because the created context is destructed by SimInit at the end
+  // of this function.
+  PackagedMaterial::Ptr pm = ResCast<PackagedMaterial>(SimInit::LoadResource(&ctx, b, resid));
+  pm->tracker_.DontTrack();
+  pm->ctx_ = NULL;
+  return pm;
+}
+
 Resource::Ptr SimInit::LoadResource(Context* ctx, QueryableBackend* b, int state_id) {
   std::vector<Cond> conds;
   conds.push_back(Cond("ResourceId", "==", state_id));
@@ -528,6 +542,8 @@ Resource::Ptr SimInit::LoadResource(Context* ctx, QueryableBackend* b, int state
     r = LoadMaterial(ctx, b, state_id);
   } else if (type == Product::kType) {
     r = LoadProduct(ctx, b, state_id);
+  } else if (type == PackagedMaterial::kType) {
+    r = LoadPackagedMaterial(ctx, b, state_id);
   } else {
     throw IOError("Invalid resource type in output database: " + type);
   }
@@ -596,6 +612,30 @@ Product::Ptr SimInit::LoadProduct(Context* ctx, QueryableBackend* b, int state_i
 
   Agent* dummy = new Dummy(ctx);
   Product::Ptr r = Product::Create(dummy, qty, quality);
+  ctx->DelAgent(dummy);
+  return r;
+}
+
+PackagedMaterial::Ptr SimInit::LoadPackagedMaterial(Context* ctx, QueryableBackend* b, int state_id) {
+  // get general resource object info
+  std::vector<Cond> conds;
+  conds.push_back(Cond("ResourceId", "==", state_id));
+  QueryResult qr = b->Query("Resources", &conds);
+  double qty = qr.GetVal<double>("Quantity");
+  int stateid = qr.GetVal<int>("QualId");
+
+  // get special Product internal state
+  conds.clear();
+  conds.push_back(Cond("QualId", "==", stateid));
+  qr = b->Query("PackagedMaterials", &conds);
+  // Set up packagedmaterial quality (currently cheating)
+  cyclus::PackagedMaterial::package quality; 
+
+  // set static quality-stateid map to have same vals as db
+  PackagedMaterial::qualids_[quality] = stateid;
+
+  Agent* dummy = new Dummy(ctx);
+  PackagedMaterial::Ptr r = PackagedMaterial::Create(dummy, qty, quality);
   ctx->DelAgent(dummy);
   return r;
 }

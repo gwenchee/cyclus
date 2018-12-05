@@ -10,6 +10,7 @@
 #include "exchange_context.h"
 #include "product.h"
 #include "material.h"
+#include "packagedmaterial.h"
 #include "request_portfolio.h"
 #include "trader.h"
 #include "trader_management.h"
@@ -26,11 +27,19 @@ inline static void AdjustPrefs(Agent* m, PrefMap<Material>::type& prefs) {
 inline static void AdjustPrefs(Agent* m, PrefMap<Product>::type& prefs) {
   m->AdjustProductPrefs(prefs);
 }
+
+inline static void AdjustPrefs(Agent* m, PrefMap<PackagedMaterial>::type& prefs) {
+  m->AdjustPackagedMatlPrefs(prefs);
+}
 inline static void AdjustPrefs(Trader* t, PrefMap<Material>::type& prefs) {
   t->AdjustMatlPrefs(prefs);
 }
 inline static void AdjustPrefs(Trader* t, PrefMap<Product>::type& prefs) {
   t->AdjustProductPrefs(prefs);
+}
+
+inline static void AdjustPrefs(Trader* t, PrefMap<PackagedMaterial>::type& prefs) {
+  t->AdjustPackagedMatlPrefs(prefs);
 }
 
 /// @class ResourceExchange
