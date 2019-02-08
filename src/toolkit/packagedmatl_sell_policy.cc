@@ -41,8 +41,7 @@ void PackagedMatlSellPolicy::set_ignore_comp(bool x) {
 }
 
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<PackagedMaterial>* buf,
-                                     std::string name) {
-  std::cout << "init" << std::endl;                                    
+                                     std::string name) {                                 
   Trader::manager_ = manager;
   buf_ = buf;
   name_ = name;
@@ -91,7 +90,6 @@ PackagedMatlSellPolicy& PackagedMatlSellPolicy::Init(Agent* manager, ResBuf<Pack
 }
 
 PackagedMatlSellPolicy& PackagedMatlSellPolicy::Set(std::string commod) {
-  std::cout << "set" << std::endl;  
   commods_.insert(commod);
   return *this;
 }
@@ -102,9 +100,7 @@ void PackagedMatlSellPolicy::Start() {
     ss << "No manager set on Sell Policy " << name_;
     throw ValueError(ss.str());
   }
-  std::cout << "start" << std::endl; 
   manager()->context()->RegisterTrader(this);
-  std::cout << "start2" << std::endl; 
 }
 
 void PackagedMatlSellPolicy::Stop() {
@@ -118,7 +114,6 @@ void PackagedMatlSellPolicy::Stop() {
 
 
 double PackagedMatlSellPolicy::Limit() const {
-  std::cout << "limit" << std::endl; 
   double bcap = buf_->quantity();
   double limit = Excl() ?                                               \
                  quantize_ * static_cast<int>(std::floor(bcap / quantize_)) : bcap;
@@ -127,7 +122,6 @@ double PackagedMatlSellPolicy::Limit() const {
 
 std::set<BidPortfolio<PackagedMaterial>::Ptr> PackagedMatlSellPolicy::GetPackagedMatlBids(
     CommodMap<PackagedMaterial>::type& commod_requests) { 
-      std::cout << "getpackagedmatlbids" << std::endl; 
   std::set<BidPortfolio<PackagedMaterial>::Ptr> ports;
   if (buf_->empty() || buf_->quantity() < eps())
     return ports;
@@ -175,7 +169,6 @@ std::set<BidPortfolio<PackagedMaterial>::Ptr> PackagedMatlSellPolicy::GetPackage
 void PackagedMatlSellPolicy::GetPackagedMatlTrades(
     const std::vector<Trade<PackagedMaterial> >& trades,
     std::vector<std::pair<Trade<PackagedMaterial>, PackagedMaterial::Ptr> >& responses) {
-      std::cout << "getpackagedmatltrades" << std::endl; 
   std::vector<Trade<PackagedMaterial> >::const_iterator it;
   for (it = trades.begin(); it != trades.end(); ++it) {
     double qty = it->amt;
