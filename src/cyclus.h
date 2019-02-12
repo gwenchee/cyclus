@@ -51,6 +51,7 @@ extern "C" {
 #endif
 #include "toolkit/matl_buy_policy.h"
 #include "toolkit/matl_sell_policy.h"
+#include "toolkit/packagedmatl_buy_policy.h"
 #include "toolkit/packagedmatl_sell_policy.h"
 #include "toolkit/commodity.h"
 #include "toolkit/commodity_producer.h"

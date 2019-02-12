@@ -3,7 +3,8 @@
 
 #include <string>
 
-#include "composition.h"
+//#include "composition.h"
+//#include "material.h"
 #include "packagedmaterial.h"
 #include "res_buf.h"
 #include "trader.h"
@@ -35,7 +36,7 @@ namespace toolkit {
 ///
 ///  private:
 ///   PackagedMatlBuyPolicy policy_;
-///   ResBuf<PackagedMaterial> inbuf_;
+///   ResBuf<Material> inbuf_;
 ///    ...
 /// }
 /// @endcode
@@ -100,8 +101,8 @@ class PackagedMatlBuyPolicy : public Trader {
   /// @param pref the preference value for the commodity
   /// @{
   PackagedMatlBuyPolicy& Set(std::string commod);
-  PackagedMatlBuyPolicy& Set(std::string commod, Composition::Ptr c);
-  PackagedMatlBuyPolicy& Set(std::string commod, Composition::Ptr c, double pref);
+  PackagedMatlBuyPolicy& Set(std::string commod, double pref);
+  PackagedMatlBuyPolicy& Set(std::string commod, double pref,PackagedMaterial::package);
   /// @}
 
   /// Registers this policy as a trader in the current simulation.  This
@@ -151,8 +152,9 @@ class PackagedMatlBuyPolicy : public Trader {
 
  private:
   struct CommodDetail {
-    Composition::Ptr comp;
+    //Composition::Ptr comp;
     double pref;
+    PackagedMaterial::package pack; 
   };
 
   /// requires buf_ already set

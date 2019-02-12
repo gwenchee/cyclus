@@ -4,9 +4,9 @@
 
 #include "error.h"
 
-#define LG(X) LOG(LEV_##X, "pacmatbuypol")
+#define LG(X) LOG(LEV_##X, "buypol")
 #define LGH(X)                                                    \
-  LOG(LEV_##X, "pacmatbuypol") << "policy " << name_ << " (agent "      \
+  LOG(LEV_##X, "buypol") << "policy " << name_ << " (agent "      \
                          << Trader::manager()->prototype() << "-" \
                          << Trader::manager()->id() << "): "
 
@@ -96,19 +96,22 @@ PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Init(Agent* manager, ResBuf<Packag
 }
 
 PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod) {
-  CompMap c;
-  c[10010000] = 1e-100;
-  return Set(commod, Composition::CreateFromMass(c), 1.0);
+  //CompMap c;
+  //c[10010000] = 1e-100;
+  // do i need to put stuff inside pack?
+  PackagedMaterial::package pack;
+  return Set(commod, 1.0, pack);
 }
 
-PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, Composition::Ptr c) {
-  return Set(commod, c, 1.0);
+PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, double pref) {
+  PackagedMaterial::package pack;
+  return Set(commod, pref, pack );
 }
 
-PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod, Composition::Ptr c,
-                                  double pref) {
+PackagedMatlBuyPolicy& PackagedMatlBuyPolicy::Set(std::string commod,
+                                  double pref, PackagedMaterial::package pack) {
   CommodDetail d;
-  d.comp = c;
+  d.pack = pack;
   d.pref = pref;
   commod_details_[commod] = d;
   return *this;
@@ -155,7 +158,7 @@ std::set<RequestPortfolio<PackagedMaterial>::Ptr> PackagedMatlBuyPolicy::GetPack
       std::string commod = it->first;
       CommodDetail d = it->second;
       LG(INFO3) << "  - one " << amt << " kg request of " << commod;
-      PackagedMaterial::Ptr m = PackagedMaterial::CreateUntracked(req_amt, d.comp);
+      PackagedMaterial::Ptr m = PackagedMaterial::CreateUntracked(req_amt, d.pack);
       grps[i].push_back(port->AddRequest(m, this, commod, d.pref, excl));
     }
 
@@ -185,4 +188,4 @@ void PackagedMatlBuyPolicy::AcceptPackagedMatlTrades(
 }
 
 }  // namespace toolkit
-}  // namespace cyclus
+} // namespace cyclus
