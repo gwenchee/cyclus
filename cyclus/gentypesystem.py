@@ -1679,7 +1679,7 @@ cdef cpp_cyclus.uuid uuid_py_to_cpp(object x):
 cdef std_string str_py_to_cpp(object x):
     print('b4objectx',x)
     if isinstance(x, list):
-        x = x[0]
+        x = str(x[0]) 
     print('objectx',x)
     cdef std_string s
     print('string',s)

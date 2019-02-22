@@ -115,6 +115,9 @@ InfileTree* InfileTree::GetEngineFromQuery(std::string query, int index) {
   using xmlpp::NodeSet;
   const NodeSet nodeset = current_node_->find(query);
 
+  std::cout << query << std::endl;
+  std::cout << nodeset.size() << std::endl;
+  std::cout << index << std::endl;  
   if (nodeset.size() < index + 1) {
     throw ValueError("Index exceeds number of nodes in query: " + query);
   }
