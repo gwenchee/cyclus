@@ -1381,7 +1381,7 @@ cdef class _Agent:
         rtn = bool_to_py((<cpp_cyclus.Agent*> self.ptx).DecendentOf(cpp_other))
         return rtn
 
-    def decomission(self):
+    def decommission(self):
         """Decommissions the agent, removing it from the simulation. Results in
         destruction of the agent object. If agents write their own decommission()
         function, they must call their superclass' decommission function at the
@@ -1487,12 +1487,15 @@ cdef class _Agent:
     def lifetime(self, int n_timesteps):
         (<cpp_cyclus.Agent*> self.ptx).lifetime(n_timesteps)
 
+    def lifetime_force(self, int n_timesteps):
+        (<cpp_cyclus.Agent*> self.ptx).lifetime_force(n_timesteps)
+
     @property
     def exit_time(self):
         """The default time step at which this agent will exit the
         simulation (-1 if the agent has an infinite lifetime).
 
-        Decomissioning happens at the end of a time step. With a lifetime of 1, we
+        Decommissioning happens at the end of a time step. With a lifetime of 1, we
         expect an agent to go through only 1 entire time step. In this case, the
         agent should be decommissioned on the same time step it was
         created. Therefore, for agents with non-infinite lifetimes, the exit_time
